@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>make some fun</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Jua&family=Gowun+Dodum&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body data-theme="arcade">
+  
+  <div class="board-theme-picker" id="themeSwitcher">
+    <button class="theme-dot active" data-theme-choice="arcade" style="background:#fffd6d" type="button" title="스노우"></button>
+    <button class="theme-dot" data-theme-choice="night" style="background:#00a2ff" type="button" title="한밤중"></button>
+    <button class="theme-dot" data-theme-choice="wood" style="background:#91ff96" type="button" title="우드보드"></button>
+    <button class="theme-dot" data-theme-choice="neon" style="background:#ff3d9a" type="button" title="네온"></button>
+  </div>
+
+  <div class="board-controls">
+    <button id="resetBtn" class="icon-btn" type="button" title="보드 초기화">↺</button>
+    <button id="bgmBtn" class="icon-btn" type="button" title="배경음악 켜기/끄기">🔈</button>
+  </div>
+
+  <div id="shelf-lips" class="sticker-shelf"></div>
+  <div id="shelf-eyes" class="sticker-shelf"></div>
+  <div id="shelf-accessories" class="sticker-shelf"></div>
+
+  <div class="board" id="board"></div>
+
+  <script src="script.js"></script>
+</body>
+</html>
