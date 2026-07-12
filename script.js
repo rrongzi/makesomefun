@@ -84,6 +84,16 @@ const ELEMENT_TYPES = [
     soundFreqs: [320], 
     soundFiles: ['bubblewrap.wav'] 
   }
+   
+   { 
+    id: 'bubblewrap', 
+    targetShelf: 'shelf-accessories', 
+    label: '레드립', 
+    img: 'assets/images/bubblewrap.png', // 👈 이모지 대신 이미지 경로!
+    color: '#ff3333', 
+    soundFreqs: [320], 
+    soundFiles: ['bubblewrap.wav'] 
+  },
 ];
 
 // ↔️ 좌우 지그재그 밀림 강도
