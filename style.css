@@ -70,9 +70,9 @@ h1, h2 {
    2. 무대 영역 및 보드 프레임
    ============================================================ */
 .stage-area {
-  display: flex !important;
-  align-items: center !important;
-  justify-content: center !important;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   gap: 50px;
   padding: 32px 16px;
   max-width: 95vw;
@@ -96,14 +96,13 @@ h1, h2 {
 }
 
 .board {
-  position: relative !important;
+  position: relative;
   width: 150%;        
   aspect-ratio: 11/7;   
   border-radius: 10px;   
   overflow: hidden;
   transition: background 0.3s ease;
   background-color: transparent !important;
-   transform: none !important;
 }
 
 .board-empty {
@@ -421,36 +420,4 @@ h1, h2 {
 .sticker-rail, .sidebar {
     position: relative !important;
     z-index: 10 !important;
-}
-
-/* 1. stage-area 안의 모든 요소가 똑같은 공간을 차지하게 함 */
-.stage-area {
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-    width: 100vw !important;
-    gap: 0 !important; /* 간격 조절은 아래에서 합니다 */
-}
-
-/* 2. 보드판을 부모의 정중앙에 위치시키기 위해, 양옆 선반의 폭을 동일하게 만듦 */
-#shelf-lips, #shelf-eyes, #shelf-accessories {
-    width: 25% !important; /* 화면의 1/4씩 균등하게 할당 */
-    flex: 0 0 25% !important;
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-}
-
-/* 3. 보드판이 들어있는 박스를 나머지 중앙 50%에 배치 */
-.board-frame {
-    width: 50% !important; /* 보드가 중앙 50%를 차지 */
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-}
-
-/* 4. 보드판 실제 크기 */
-.board {
-    width: 80% !important; /* 보드판 박스 안에서 80% 크기 유지 */
-    margin: 0 auto !important;
 }
