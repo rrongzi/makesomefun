@@ -1,429 +1,334 @@
 /* ============================================================
    0. 테마(디자인) 색상 토큰 — 보드 배경만 결정합니다.
    ============================================================ */
-   :root {
-    --page-bg-1: #ffffff;
-    --page-bg-2: #ffffff;
-    --board-bg-1: #ffffff;
-    --board-bg-2: #ffffff;
-    --board-pattern: rgba(255, 255, 255, 0.7);
-    --accent-sky: #4ec3f7;
-    --ink: #1f2a44;
-  }
-  
-  body[data-theme="night"] {
-    --board-bg-1: #f3983d;
-    --board-bg-2: #1c1a30;
-    --board-pattern: rgba(255, 255, 255, 0.08);
-    --accent-sky: #9fa8f5;
-    --ink: #f4eee6;
-  }
-  
-  body[data-theme="wood"] {
-    --board-bg-1: #d8b788;
-    --board-bg-2: #b98f5e;
-    --board-pattern: rgba(255, 255, 255, 0.18);
-    --accent-sky: #6fae8c;
-  }
-  
-  body[data-theme="neon"] {
-    --board-bg-1: #31132e;
-    --board-bg-2: #0b0c1a;
-    --board-pattern: rgba(57, 255, 206, 0.12);
-    --accent-sky: #39d6ff;
-    --ink: #eafcff;
-  }
-  
-  /* 🎨 [완벽 교체] 기존 컬러/그라데이션 완전 삭제! 순수 PNG 이미지로만 통교체 */
-  body[data-theme="arcade"] .board { background: url('assets/images/board_card.png') no-repeat center / cover !important; }
-  body[data-theme="night"] .board  { background: url('assets/images/board_blue.png') no-repeat center / cover !important; }
-  body[data-theme="wood"] .board   { background: url('assets/images/board_green.png') no-repeat center / cover !important; }
-  body[data-theme="neon"] .board   { background: url('assets/images/board_carpet.png') no-repeat center / cover !important; }
-  
-  
-  /* ============================================================
-     1. 기본 리셋 & 폰트 & 전체 배치
-     ============================================================ */
-  * {
-    box-sizing: border-box;
-  }
-  
-  html, body {
-    height: 100%;
-  }
-  
-  body {
-    margin: 0;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    background: linear-gradient(160deg, var(--page-bg-1), var(--page-bg-2));
-    color: #1f2a44;
-    font-family: "Gowun Dodum", "Apple SD Gothic Neo", sans-serif;
-  }
-  
-  h1, h2 {
-    font-family: "Jua", "Apple SD Gothic Neo", sans-serif;
-    margin: 0;
-  }
-  
-  
-  /* ============================================================
-     2. 무대 영역 및 보드 프레임 (★크기 키움)
-     ============================================================ */
-  .stage-area {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    gap: 50px;
-    padding: 32px 16px;
-    max-width: 95vw;
-    width: 100%;
-  }
-  
-  .sticker-rail {
-    flex: 0 0 110px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 50px;
-    padding: 20px 0;
-  }
-  
-  .board-frame {
-    position: relative;
-    flex: 1;
-    width: 100%;
-    max-width: 1200px; 
-  }
-  
-  .board {
-    position: relative;
-    width: 150%;       
-    aspect-ratio: 11/7;   
-    border-radius: 10px;   
-    overflow: hidden;
-    transition: background 0.3s ease;
-    background-color: transparent !important;
-    
-  }
-  
-  .board-empty {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    color: var(--ink);
-    opacity: 0.45;
-    font-size: 14px;
-    text-align: center;
-    width: 80%;
-    pointer-events: none;
-  }
-  
-  
-  /* ============================================================
-     3. 보드 내부 버튼 및 컨트롤러 스타일 정돈
-     ============================================================ */
-  .board-theme-picker {
-    position: relative;   
-    display: flex;
-    gap: 12px;
-    margin-top: 40px;
-    margin-bottom: 12px;  
-    justify-content: flex-start; 
-    z-index: 10; 
-  }
-  
-  .theme-dot {
-    width: 40px;
-    height: 30px;          
-    border-radius: 5px;   
-    border: 3px solid #fde2fb;
-    cursor: pointer;
-    transition: transform 0.15s ease;
-  }
-  
-  .theme-dot:hover {
-    transform: scale(1.1);
-  }
-  
-  .theme-dot.active {
-    border-color: #8bffa4; 
-    transform: scale(1.05);
-  }
-  
-  .board-controls {
-    position: absolute;
-    top: 16px;
-    right: 16px;
-    display: flex;
-    gap: 12px;
-    z-index: 20;
-  }
-  
-  .icon-btn {
-    background-color: #ffffff !important; 
-    color: #333333 !important; 
-    border: 2px solid #dddddd;
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
-    font-size: 18px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-    transition: transform 0.15s ease, opacity 0.15s ease;
-  }
-  
-  .icon-btn:hover { 
-    transform: scale(1.1); 
-  }
-  
-  
-  /* ============================================================
-     4. 양옆 스티커 아이템 스타일
-     ============================================================ */
-  .sidebar {
-    display: flex;
-    flex-direction: column;
-    gap: 30px;              
-    padding: 20px;
-  }
-    
-  .sticker-shelf {
-    display: flex;
-    flex-direction: wrap; 
-    align-items: center;
-    gap: 15px;   
-    padding: 20px;
-    min-height: 50px;
-    overflow: visible;      
-  }
-  
-  .sticker-item {
-    width: 130px;
-    height: 130px;
-    background: transparent;   
-    border: none;              
-    box-shadow: none;          
-    cursor: grab;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 3rem;           
-    user-select: none;
-    transform: translate(var(--x-off, 0px), var(--y-off, 0px));
-    transition: transform 0.2s ease;
-  }
-  
-  .sticker-item:hover {
-    background: transparent;
-    border: none;
-    box-shadow: none;
-    transform: rotate(var(--rot)) translate(var(--x-off, 0px), var(--y-off, 0px)) scale(1.15);
-  }
-  
-  .sticker-item.pressed {
-    background: transparent;
-    border: none;
-    box-shadow: none;
-    transform: rotate(var(--rot)) translate(var(--x-off, 0px), var(--y-off, 0px)) scale(0.92);
-  }
-  
-  .sticker-item.pop {
-    animation: pop-rotated 0.32s ease-out;
-  }
-  
-  .drag-ghost {
-    position: fixed;
-    width: 84px;
-    height: 84px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 46px;
-    pointer-events: none;
-    z-index: 9999;
-    transform: scale(1.1);
-  }
-  
-  
-  /* ============================================================
-     5. 보드 위에 놓이는 피젯 요소
-     ============================================================ */
-  .fidget-item {
-    --rot: 0deg;
-    position: absolute;
-    width: 120px;        
-    height: 120px;       
-    border: none;
-    background: transparent;
-    box-shadow: none;
-    border-radius: 0;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: grab;
-    touch-action: none;
-    user-select: none;
-    transform: rotate(var(--rot));
-    transition: transform 0.15s ease;
-  }
-  
-  .fidget-item:hover { transform: rotate(var(--rot)) scale(1.06); }
-  .fidget-item.dragging { cursor: grabbing; z-index: 10; transition: none; }
-  .fidget-item.pressed { transform: rotate(var(--rot)) scale(1.12, 0.85); transition: transform 0.08s ease; }
-  .fidget-item.pop { animation: pop-rotated 0.32s ease-out; }
-  
-  .item-emoji {
-    font-size: 65px;     
-    pointer-events: none;
-  }
-  
-  .delete-btn {
-    position: absolute;
-    top: 20px;        
-    right: 3px;      
-    width: auto;
-    height: auto;
-    border: none;
-    background: transparent;
-    box-shadow: none;
-    border-radius: 0;
-    color: hsl(294, 100%, 49%);
-    font-size: 15px;   
-    font-family: "Jua", sans-serif; 
-    cursor: pointer;
-    opacity: 0;
-    transition: opacity 0.15s ease, transform 0.15s ease;
-    text-shadow: 2px 0 #fff, -2px 0 #fff, 0 2px #fff, 0 -2px #fff,
-                 1px 1px #fff, -1px -1px #fff, 1px -1px #fff, -1px 1px #fff;
-    z-index: 30;
-  }
-  
-  .fidget-item:hover .delete-btn { opacity: 1; }
-  .delete-btn:hover { transform: scale(1.25); color: #ff00fb; }
-  
-* ============================================================
-     6. 반응형 모바일 대응
-     ============================================================ */
-  @media (max-width: 860px) {
-    body { display: block; }
-    .stage-area {
-      flex-direction: column;
-      align-items: center;
-    }
-    .sticker-rail {
-      flex-direction: row;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-    .board-frame {
-      width: 100%;
-      max-width: 1000px;
-    }
-  }
-  
-  @media (max-width: 480px) {
-    .board { min-height: 380px; }
-  }
-  
-  .sticker-item:focus-visible,
-  .theme-dot:focus-visible,
-  .icon-btn:focus-visible,
-  .fidget-item:focus-visible {
-    outline: 2px solid var(--accent-sky);
-    outline-offset: 2px;
-  }
-  /* ============================================================================
-   🎯 [마지막 구조대] 부모 레이아웃 완전 무시, 브라우저 화면 기준 절대 고정
-   (기존에 맨 밑에 붙였던 모든 수리 코드를 지우고, 이걸로 새로 붙여넣으세요!)
-============================================================================ */
+:root {
+  --page-bg-1: #ffffff;
+  --page-bg-2: #ffffff;
+  --board-bg-1: #ffffff;
+  --board-bg-2: #ffffff;
+  --board-pattern: rgba(255, 255, 255, 0.7);
+  --accent-sky: #4ec3f7;
+  --ink: #1f2a44;
+}
 
-/* 0. 전체 화면 기본 배경 고정 */
+body[data-theme="night"] {
+  --board-bg-1: #f3983d;
+  --board-bg-2: #1c1a30;
+  --board-pattern: rgba(255, 255, 255, 0.08);
+  --accent-sky: #9fa8f5;
+  --ink: #f4eee6;
+}
+
+body[data-theme="wood"] {
+  --board-bg-1: #d8b788;
+  --board-bg-2: #b98f5e;
+  --board-pattern: rgba(255, 255, 255, 0.18);
+  --accent-sky: #6fae8c;
+}
+
+body[data-theme="neon"] {
+  --board-bg-1: #31132e;
+  --board-bg-2: #0b0c1a;
+  --board-pattern: rgba(57, 255, 206, 0.12);
+  --accent-sky: #39d6ff;
+  --ink: #eafcff;
+}
+
+body[data-theme="arcade"] .board { background: url('assets/images/board_card.png') no-repeat center / cover !important; }
+body[data-theme="night"] .board  { background: url('assets/images/board_blue.png') no-repeat center / cover !important; }
+body[data-theme="wood"] .board   { background: url('assets/images/board_green.png') no-repeat center / cover !important; }
+body[data-theme="neon"] .board   { background: url('assets/images/board_carpet.png') no-repeat center / cover !important; }
+
+/* ============================================================
+   1. 기본 리셋 & 폰트 & 전체 배치
+   ============================================================ */
+* {
+  box-sizing: border-box;
+}
+
 html, body {
-  width: 100vw !important;
-  height: 100vh !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  overflow: hidden !important;
+  height: 100%;
 }
 
-/* 1. 가운데 보드판: 다른 애들이 밀든 말든 모니터 딱 정중앙에 고정 */
-.board, #board {
-  position: fixed !important;
-  left: 50% !important;
-  top: 55% !important; /* 상단 버튼 자리를 위해 살짝 아래로 중심 축 이동 */
-  transform: translate(-50%, -50%) !important;
-  
-  /* 📐 보드판 크기 (원하는 비율로 조절 가능) */
-  width: 55vw !important;  
-  height: 65vh !important; 
-  
-  /* 🖼️ PNG 배경 이미지 구석구석 100% 꽉 채우기 (절대 안잘림) */
-  background-size: 100% 100% !important;
-  background-repeat: no-repeat !important;
-  background-position: center !important;
-  
-  margin: 0 !important;
-  z-index: 10 !important;
-  box-sizing: border-box !important;
-}
-
-/* 2. 보드 선택 버튼(테마 동그라미): 화면 상단 한가운데에 예쁘게 안착 */
-.theme-dots, .theme-container, div:has(> .theme-dot), div:has(> [data-theme]) {
-  position: fixed !important;
-  left: 50% !important;
-  top: 5vh !important; /* 화면 맨 위에서 5% 내려온 지점 */
-  transform: translateX(-50%) !important; /* 상단 수평 정중앙 정렬 */
-  
-  width: auto !important;
-  height: auto !important;
-  display: flex !important;
-  flex-direction: row !important;
-  gap: 12px !important;
-  z-index: 30 !important;
-}
-
-/* 1. 모든 고정 좌표(fixed)를 해제합니다. */
-.board, #board, #shelf-lips, #shelf-eyes, #shelf-accessories {
-    position: static !important; /* fixed를 static으로 변경 */
-    transform: none !important;  /* 강제 정렬 해제 */
-}
-
-/* 2. 전체를 감싸는 바디를 세로 정렬로 변경 */
 body {
-    display: flex !important;
-    flex-direction: column !important;
-    align-items: center !important;
-    min-height: 100vh !important;
-    overflow-y: auto !important; /* 내용이 길어지면 스크롤 */
-    overflow-x: hidden !important;
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(160deg, var(--page-bg-1), var(--page-bg-2));
+  color: #1f2a44;
+  font-family: "Gowun Dodum", "Apple SD Gothic Neo", sans-serif;
 }
 
-/* 3. 모바일 레이아웃 (위: 보드, 아래: 아이콘) */
-@media screen and (max-width: 768px) {
-    /* 보드판을 상단으로 */
-    #board, .board {
-        width: 90vw !important;
-        height: 40vh !important;
-        margin: 20px auto !important;
-        order: 1; /* 순서 1번 */
-    }
+h1, h2 {
+  font-family: "Jua", "Apple SD Gothic Neo", sans-serif;
+  margin: 0;
+}
 
-    /* 아이콘 묶음을 보드 아래로 */
-    #shelf-lips, #shelf-eyes, #shelf-accessories {
-        display: flex !important;
-        flex-direction: row !important; /* 가로로 나열 */
-        flex-wrap: wrap !important;     /* 꽉 차면 줄바꿈 */
-        justify-content: center !important;
-        width: 100vw !important;
-        order: 2; /* 순서 2번 (보드 아래) */
-        padding: 10px !important;
-        gap: 15px !important;
-    }
+/* ============================================================
+   2. 무대 영역 및 보드 프레임
+   ============================================================ */
+.stage-area {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 50px;
+  padding: 32px 16px;
+  max-width: 95vw;
+  width: 100%;
+}
+
+.sticker-rail {
+  flex: 0 0 110px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 50px;
+  padding: 20px 0;
+}
+
+.board-frame {
+  position: relative;
+  flex: 1;
+  width: 100%;
+  max-width: 1200px; 
+}
+
+.board {
+  position: relative;
+  width: 150%;        
+  aspect-ratio: 11/7;   
+  border-radius: 10px;   
+  overflow: hidden;
+  transition: background 0.3s ease;
+  background-color: transparent !important;
+}
+
+.board-empty {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: var(--ink);
+  opacity: 0.45;
+  font-size: 14px;
+  text-align: center;
+  width: 80%;
+  pointer-events: none;
+}
+
+/* ============================================================
+   3. 보드 내부 버튼 및 컨트롤러 스타일
+   ============================================================ */
+.board-theme-picker {
+  position: relative;   
+  display: flex;
+  gap: 12px;
+  margin-top: 40px;
+  margin-bottom: 12px;  
+  justify-content: flex-start; 
+  z-index: 10; 
+}
+
+.theme-dot {
+  width: 40px;
+  height: 30px;         
+  border-radius: 5px;   
+  border: 3px solid #fde2fb;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.theme-dot:hover {
+  transform: scale(1.1);
+}
+
+.theme-dot.active {
+  border-color: #8bffa4; 
+  transform: scale(1.05);
+}
+
+.board-controls {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  gap: 12px;
+  z-index: 20;
+}
+
+.icon-btn {
+  background-color: #ffffff !important; 
+  color: #333333 !important; 
+  border: 2px solid #dddddd;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.icon-btn:hover { 
+  transform: scale(1.1); 
+}
+
+/* ============================================================
+   4. 양옆 스티커 아이템 스타일
+   ============================================================ */
+.sidebar {
+  display: flex;
+  flex-direction: column;
+  gap: 30px;              
+  padding: 20px;
+}
+ 
+.sticker-shelf {
+  display: flex;
+  flex-direction: wrap; 
+  align-items: center;
+  gap: 15px;   
+  padding: 20px;
+  min-height: 50px;
+  overflow: visible;      
+}
+
+.sticker-item {
+  width: 130px;
+  height: 130px;
+  background: transparent;   
+  border: none;              
+  box-shadow: none;          
+  cursor: grab;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;            
+  user-select: none;
+  transform: translate(var(--x-off, 0px), var(--y-off, 0px));
+  transition: transform 0.2s ease;
+}
+
+.sticker-item:hover {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  transform: rotate(var(--rot)) translate(var(--x-off, 0px), var(--y-off, 0px)) scale(1.15);
+}
+
+.sticker-item.pressed {
+  background: transparent;
+  border: none;
+  box-shadow: none;
+  transform: rotate(var(--rot)) translate(var(--x-off, 0px), var(--y-off, 0px)) scale(0.92);
+}
+
+.sticker-item.pop {
+  animation: pop-rotated 0.32s ease-out;
+}
+
+.drag-ghost {
+  position: fixed;
+  width: 84px;
+  height: 84px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 46px;
+  pointer-events: none;
+  z-index: 9999;
+  transform: scale(1.1);
+}
+
+/* ============================================================
+   5. 보드 위에 놓이는 피젯 요소
+   ============================================================ */
+.fidget-item {
+  --rot: 0deg;
+  position: absolute;
+  width: 120px;       
+  height: 120px;       
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: grab;
+  touch-action: none;
+  user-select: none;
+  transform: rotate(var(--rot));
+  transition: transform 0.15s ease;
+}
+
+.fidget-item:hover { transform: rotate(var(--rot)) scale(1.06); }
+.fidget-item.dragging { cursor: grabbing; z-index: 10; transition: none; }
+.fidget-item.pressed { transform: rotate(var(--rot)) scale(1.12, 0.85); transition: transform 0.08s ease; }
+.fidget-item.pop { animation: pop-rotated 0.32s ease-out; }
+
+.item-emoji {
+  font-size: 65px;     
+  pointer-events: none;
+}
+
+.delete-btn {
+  position: absolute;
+  top: 20px;       
+  right: 3px;      
+  width: auto;
+  height: auto;
+  border: none;
+  background: transparent;
+  box-shadow: none;
+  border-radius: 0;
+  color: hsl(294, 100%, 49%);
+  font-size: 15px;   
+  font-family: "Jua", sans-serif; 
+  cursor: pointer;
+  opacity: 0;
+  transition: opacity 0.15s ease, transform 0.15s ease;
+  text-shadow: 2px 0 #fff, -2px 0 #fff, 0 2px #fff, 0 -2px #fff,
+               1px 1px #fff, -1px -1px #fff, 1px -1px #fff, -1px 1px #fff;
+  z-index: 30;
+}
+
+.fidget-item:hover .delete-btn { opacity: 1; }
+.delete-btn:hover { transform: scale(1.25); color: #ff00fb; }
+
+/* ============================================================
+   6. 반응형 모바일 대응
+   ============================================================ */
+@media (max-width: 860px) {
+  body { display: block; }
+  .stage-area {
+    flex-direction: column;
+    align-items: center;
+  }
+  .sticker-rail {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  .board-frame {
+    width: 100%;
+    max-width: 1000px;
+  }
+}
+
+@media (max-width: 480px) {
+  .board { min-height: 380px; }
+}
+
+.sticker-item:focus-visible,
+.theme-dot:focus-visible,
+.icon-btn:focus-visible,
+.fidget-item:focus-visible {
+  outline: 2px solid var(--accent-sky);
+  outline-offset: 2px;
 }
