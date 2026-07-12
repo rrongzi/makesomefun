@@ -403,17 +403,16 @@ h1, h2 {
 
 /* 보드가 화면 정중앙에 올 수 있게 여백을 강제로 맞춥니다 */
 .stage-area {
-    /* 1. 왼쪽/오른쪽 아이콘들의 폭을 동일하게 강제 설정 */
-    justify-content: space-between !important; 
-    padding: 0 5% !important; /* 화면 양옆에 일정한 여백을 줌 */
+    justify-content: center !important;
+    gap: 40px !important;
+    padding: 0 50px !important;
 }
 
-/* 2. 보드를 부모 안에서 완벽한 가운데로 배치 */
 .board-frame {
     margin: 0 auto !important;
-    position: absolute !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
+    position: relative !important;
+    left: auto !important;
+    transform: none !important;
 }
 
 /* 3. 사이드 선반들이 보드를 밀지 않도록 수정 */
