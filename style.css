@@ -389,36 +389,41 @@ html, body {
   z-index: 30 !important;
 }
 
-@media screen and (max-width: 768px) {
-    /* 1. 테마 선택 버튼들을 화면 최상단으로 분리 */
-    .board-theme-picker {
-        position: static !important;
-        margin: 10px auto !important;
-        order: -1 !important; /* 무조건 맨 위로 */
-        transform: scale(0.8) !important; /* 버튼들 전체 크기 축소 */
-    }
+/* 1. 모든 고정 좌표(fixed)를 해제합니다. */
+.board, #board, #shelf-lips, #shelf-eyes, #shelf-accessories {
+    position: static !important; /* fixed를 static으로 변경 */
+    transform: none !important;  /* 강제 정렬 해제 */
+}
 
-    /* 2. 보드판 크기 조정 */
+/* 2. 전체를 감싸는 바디를 세로 정렬로 변경 */
+body {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    min-height: 100vh !important;
+    overflow-y: auto !important; /* 내용이 길어지면 스크롤 */
+    overflow-x: hidden !important;
+}
+
+/* 3. 모바일 레이아웃 (위: 보드, 아래: 아이콘) */
+@media screen and (max-width: 768px) {
+    /* 보드판을 상단으로 */
     #board, .board {
         width: 90vw !important;
-        height: 35vh !important;
-        order: 1; /* 테마 버튼 아래 */
+        height: 40vh !important;
+        margin: 20px auto !important;
+        order: 1; /* 순서 1번 */
     }
 
-    /* 3. 에셋들을 3열 혹은 4열 그리드로 정렬 (겹침 방지) */
-    .sticker-shelf {
-        display: grid !important;
-        grid-template-columns: repeat(3, 1fr) !important; /* 3열 정렬 */
-        gap: 10px !important;
-        padding: 15px !important;
-        width: 90vw !important;
-        order: 2; /* 보드 아래 */
-    }
-
-    /* 4. 에셋 크기 강제 축소 (모바일 화면에 쏙 들어감) */
-    .sticker-item {
-        width: 70px !important;
-        height: 70px !important;
-        font-size: 2rem !important; /* 이모지/이미지 크기 조절 */
+    /* 아이콘 묶음을 보드 아래로 */
+    #shelf-lips, #shelf-eyes, #shelf-accessories {
+        display: flex !important;
+        flex-direction: row !important; /* 가로로 나열 */
+        flex-wrap: wrap !important;     /* 꽉 차면 줄바꿈 */
+        justify-content: center !important;
+        width: 100vw !important;
+        order: 2; /* 순서 2번 (보드 아래) */
+        padding: 10px !important;
+        gap: 15px !important;
     }
 }
