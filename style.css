@@ -403,13 +403,27 @@ h1, h2 {
 
 /* 보드가 화면 정중앙에 올 수 있게 여백을 강제로 맞춥니다 */
 .stage-area {
+    display: flex !important;
     justify-content: center !important;
-    gap: 40px !important;
-    padding: 0 50px !important;
+    align-items: center !important;
+    width: 100vw !important;
+}
+
+#shelf-lips, #shelf-eyes, #shelf-accessories, .sticker-rail {
+    flex: 0 0 200px !important; /* 왼쪽 합계(400px)와 오른쪽(200px)이 달라도 일단 공간 할당 */
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+}
+
+.stage-area::before, .stage-area::after {
+    content: "";
+    flex: 1; /* 양옆에 똑같은 빈 공간을 만듦 */
 }
 
 .board-frame {
-    margin: 0 auto !important;
+    flex: 0 0 auto !important;
+    margin: 0 50px auto !important;
     position: relative !important;
     left: auto !important;
     transform: none !important;
