@@ -422,3 +422,22 @@ h1, h2 {
     position: relative !important;
     z-index: 10 !important;
 }
+/* 1. 좌우 아이콘 선반의 크기를 똑같이 고정 */
+#shelf-lips, #shelf-eyes, #shelf-accessories, .sticker-rail {
+    flex: 0 0 200px !important; /* 무조건 200px 폭을 가지게 함 */
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+}
+
+/* 2. 보드판을 부모(stage-area) 안에서 완벽한 가운데로 배치 */
+.board-frame {
+    flex: 1 !important;
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+.board {
+    margin: 0 auto !important; /* 보드판을 자기 영역 내에서 가운데로 */
+}
