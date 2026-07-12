@@ -427,29 +427,23 @@ html, body {
   z-index: 20 !important;
 }
 @media screen and (max-width: 768px) {
-  /* 1. 보드판을 화면 중앙으로 강제 이동 */
+  /* 1. 보드판을 화면 중앙에 고정 */
   #board {
     position: relative !important;
-    margin: 50px auto 20px auto !important; /* 위쪽 여백을 줘서 아이콘들과 분리 */
-    width: 85vw !important; /* 약간 더 작게 해서 여유 공간 확보 */
+    margin: 80px auto 20px auto !important; /* 상단 여백을 충분히 */
+    width: 80vw !important;
     height: 40vh !important;
     background-size: contain !important;
-    background-repeat: no-repeat !important;
     background-position: center !important;
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
+    background-repeat: no-repeat !important;
+    z-index: 1 !important;
   }
 
-  /* 2. 하단 아이콘 선반 정렬 */
-  .sticker-shelf {
-    position: relative !important;
-    display: flex !important;
-    justify-content: center !important; /* 가로 중앙 정렬 */
-    align-items: center !important;
-    flex-wrap: wrap !important;
-    gap: 15px !important;
-    margin: 0 auto !important;
-    max-width: 90vw !important;
+  /* 2. 보드 위에 올라가는 아이콘들이 보드 안에서만 움직이도록 설정 */
+  .fidget-item {
+    position: absolute !important; /* 보드판을 기준으로 위치 결정 */
+    width: 60px !important;
+    height: 60px !important;
+    z-index: 2 !important;
   }
 }
