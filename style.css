@@ -196,9 +196,10 @@
     
   .sticker-shelf {
     display: flex;
-    flex-direction: column; 
+    flex-direction: wrap; 
     align-items: center;
-    gap: 25px;              
+    gap: 15px;   
+    padding: 20px;
     min-height: 50px;
     overflow: visible;      
   }
@@ -426,24 +427,25 @@ html, body {
   gap: 20px !important;
   z-index: 20 !important;
 }
+/* 모바일 전용: 위아래 2단 배치 */
 @media screen and (max-width: 768px) {
-  /* 1. 보드판을 화면 중앙에 고정 */
-  #board {
-    position: relative !important;
-    margin: 80px auto 20px auto !important; /* 상단 여백을 충분히 */
-    width: 80vw !important;
-    height: 40vh !important;
-    background-size: contain !important;
-    background-position: center !important;
-    background-repeat: no-repeat !important;
-    z-index: 1 !important;
-  }
+    body {
+        flex-direction: column; /* 세로로 쌓기 */
+    }
 
-  /* 2. 보드 위에 올라가는 아이콘들이 보드 안에서만 움직이도록 설정 */
-  .fidget-item {
-    position: absolute !important; /* 보드판을 기준으로 위치 결정 */
-    width: 60px !important;
-    height: 60px !important;
-    z-index: 2 !important;
-  }
+    #board {
+        width: 90vw !important; /* 모바일 폭에 맞춤 */
+        height: 40vh !important;
+        margin-top: 10px;
+    }
+
+    .sticker-shelf {
+        display: flex !important;
+        flex-direction: row !important; /* 에셋들은 가로로 쭉 나열 */
+        flex-wrap: wrap !important;     /* 꽉 차면 자동으로 다음 줄로 */
+        justify-content: center;
+        width: 90vw !important;
+        gap: 10px;
+        padding-bottom: 20px;
+    }
 }
