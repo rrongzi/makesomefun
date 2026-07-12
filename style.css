@@ -435,6 +435,8 @@ html, body {
   }
   /* 아이콘들은 한 줄로 모으거나 크기를 조절 */
   .sticker-shelf {
+    width: 90vw !important;
+    height: 50vh !important;
     flex-direction: row !important; /* 가로로 배치 */
     gap: 10px !important;
     bottom: 10px !important; /* 화면 아래쪽으로 배치 */
@@ -443,10 +445,10 @@ html, body {
 }
 /* 아이콘 선반의 우선순위를 보드(1)보다 낮게 설정 */
 .sticker-shelf {
-  z-index: 0 !important; 
+  z-index: 10 !important; 
 }
 
 /* 보드판은 여전히 위쪽에 있게 */
 #board {
-  z-index: 1 !important;
+  z-index: 5 !important;
 }
