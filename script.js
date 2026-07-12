@@ -83,7 +83,7 @@ const ELEMENT_TYPES = [
     color: '#ff3333', 
     soundFreqs: [320], 
     soundFiles: ['bubblewrap.wav'] 
-  }
+  },
    
    { 
     id: 'bubblewrap', 
@@ -93,7 +93,7 @@ const ELEMENT_TYPES = [
     color: '#ff3333', 
     soundFreqs: [320], 
     soundFiles: ['bubblewrap.wav'] 
-  },
+  }
 ];
 
 // ↔️ 좌우 지그재그 밀림 강도
