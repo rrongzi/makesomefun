@@ -365,26 +365,46 @@ h1, h2 {
   }
 }
 
-/* 1. 보드판을 감싸는 stage-area 설정 */
+/* 1. 모든 요소를 가로로 묶는 stage-area 설정 */
 .stage-area {
     display: flex !important;
-    justify-content: center !important; /* 핵심: 모든 요소를 중앙으로 */
+    justify-content: center !important;
     align-items: center !important;
     width: 100vw !important;
-    gap: 0 !important; /* 간격은 마진으로 조절 */
+    gap: 0 !important;
+    padding: 0 !important;
 }
 
-/* 2. 이게 핵심: 모든 선반의 너비를 똑같이 200px로 통일 */
+/* 2. 좌우 선반들을 각각 화면의 똑같은 비율(각 15%)로 할당하여 보드를 가운데로 밈 */
 #shelf-lips, #shelf-eyes, #shelf-accessories {
-    width: 200px !important; 
-    flex: 0 0 200px !important;
+    flex: 0 0 15% !important; /* 무조건 똑같은 폭 */
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
+    justify-content: center !important;
 }
 
-/* 3. 보드판은 그냥 가운데 놔둠 */
+/* 3. 보드는 가운데 공간을 차지하게 함 */
 .board-frame {
-    margin: 0 50px !important;
-    flex: 0 0 auto !important;
+    flex: 0 0 50% !important; /* 보드가 중앙 50%를 차지 */
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+}
+
+.board {
+    width: 90% !important;
+    margin: 0 auto !important;
+}
+
+/* 4. 모바일 대응 (모바일은 다시 세로 정렬) */
+@media (max-width: 860px) {
+    .stage-area { flex-direction: column !important; height: auto !important; }
+    .board-frame { width: 90vw !important; margin: 60px auto !important; }
+    #shelf-lips, #shelf-eyes, #shelf-accessories {
+        flex: 0 0 auto !important;
+        width: 100vw !important;
+        flex-direction: row !important;
+        flex-wrap: wrap !important;
+    }
 }
