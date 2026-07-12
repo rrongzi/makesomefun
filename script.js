@@ -507,7 +507,7 @@ if (bgmBtn) {
     if (!bgmAudio) {
       bgmAudio = new Audio('assets/sounds/bgm.aac');
       bgmAudio.loop = true;
-      bgmAudio.volume = 0.4;
+      bgmAudio.volume = 0.1;
     }
 
     if (bgmOn) {
