@@ -441,3 +441,12 @@ html, body {
     top: auto !important;
   }
 }
+/* 아이콘 선반의 우선순위를 보드(1)보다 낮게 설정 */
+.sticker-shelf {
+  z-index: 0 !important; 
+}
+
+/* 보드판은 여전히 위쪽에 있게 */
+#board {
+  z-index: 1 !important;
+}
