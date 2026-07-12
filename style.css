@@ -416,21 +416,26 @@ h1, h2 {
     align-items: center !important;
 }
 
-.stage-area::before, .stage-area::after {
-    content: "";
-    flex: 1; /* 양옆에 똑같은 빈 공간을 만듦 */
+/* 1. 보드판을 감싸는 stage-area 설정 */
+.stage-area {
+    display: flex !important;
+    justify-content: center !important; /* 핵심: 모든 요소를 중앙으로 */
+    align-items: center !important;
+    width: 100vw !important;
+    gap: 0 !important; /* 간격은 마진으로 조절 */
 }
 
+/* 2. 이게 핵심: 모든 선반의 너비를 똑같이 200px로 통일 */
+#shelf-lips, #shelf-eyes, #shelf-accessories {
+    width: 200px !important; 
+    flex: 0 0 200px !important;
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+}
+
+/* 3. 보드판은 그냥 가운데 놔둠 */
 .board-frame {
+    margin: 0 50px !important;
     flex: 0 0 auto !important;
-    margin: 0 50px auto !important;
-    position: relative !important;
-    left: auto !important;
-    transform: none !important;
-}
-
-/* 3. 사이드 선반들이 보드를 밀지 않도록 수정 */
-.sticker-rail, .sidebar {
-    position: relative !important;
-    z-index: 10 !important;
 }
