@@ -86,13 +86,13 @@ const ELEMENT_TYPES = [
   },
    
    { 
-    id: 'bubblewrap', 
+    id: 'button', 
     targetShelf: 'shelf-accessories', 
     label: '레드립', 
-    img: 'assets/images/bubblewrap.png', // 👈 이모지 대신 이미지 경로!
+    img: 'assets/images/button.png', // 👈 이모지 대신 이미지 경로!
     color: '#ff3333', 
     soundFreqs: [320], 
-    soundFiles: ['bubblewrap.wav'] 
+    soundFiles: ['button.wav'] 
   }
 ];
 
