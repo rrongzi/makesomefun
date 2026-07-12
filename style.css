@@ -422,22 +422,35 @@ h1, h2 {
     position: relative !important;
     z-index: 10 !important;
 }
-/* 1. 좌우 아이콘 선반의 크기를 똑같이 고정 */
-#shelf-lips, #shelf-eyes, #shelf-accessories, .sticker-rail {
-    flex: 0 0 200px !important; /* 무조건 200px 폭을 가지게 함 */
+
+/* 1. stage-area 안의 모든 요소가 똑같은 공간을 차지하게 함 */
+.stage-area {
+    display: flex !important;
+    justify-content: center !important;
+    align-items: center !important;
+    width: 100vw !important;
+    gap: 0 !important; /* 간격 조절은 아래에서 합니다 */
+}
+
+/* 2. 보드판을 부모의 정중앙에 위치시키기 위해, 양옆 선반의 폭을 동일하게 만듦 */
+#shelf-lips, #shelf-eyes, #shelf-accessories {
+    width: 25% !important; /* 화면의 1/4씩 균등하게 할당 */
+    flex: 0 0 25% !important;
     display: flex !important;
     flex-direction: column !important;
     align-items: center !important;
 }
 
-/* 2. 보드판을 부모(stage-area) 안에서 완벽한 가운데로 배치 */
+/* 3. 보드판이 들어있는 박스를 나머지 중앙 50%에 배치 */
 .board-frame {
-    flex: 1 !important;
+    width: 50% !important; /* 보드가 중앙 50%를 차지 */
     display: flex !important;
     justify-content: center !important;
     align-items: center !important;
 }
 
+/* 4. 보드판 실제 크기 */
 .board {
-    margin: 0 auto !important; /* 보드판을 자기 영역 내에서 가운데로 */
+    width: 80% !important; /* 보드판 박스 안에서 80% 크기 유지 */
+    margin: 0 auto !important;
 }
