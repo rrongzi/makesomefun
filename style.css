@@ -389,62 +389,41 @@ html, body {
   z-index: 30 !important;
 }
 
-/* ============================================================
-   🎯 [강제 격리] 아이콘들을 보드판과 물리적으로 떼어놓기
-============================================================ */
-
-/* 1. 보드판은 정중앙 (왼쪽/오른쪽 여백을 넉넉히 확보) */
-.board, #board {
-  position: fixed !important;
-  left: 50% !important;
-  top: 50% !important;
-  transform: translate(-50%, -50%) !important;
-  width: 45vw !important; /* 보드판을 살짝 줄여서 공간 확보 */
-  height: 60vh !important;
-  z-index: 10 !important;
+/* 1. 모든 고정 좌표(fixed)를 해제합니다. */
+.board, #board, #shelf-lips, #shelf-eyes, #shelf-accessories {
+    position: static !important; /* fixed를 static으로 변경 */
+    transform: none !important;  /* 강제 정렬 해제 */
 }
 
-/* 2. 왼쪽 아이콘들: 화면 좌측 벽에 아예 박제 (20vw만큼 왼쪽으로 밀어냄) */
-#shelf-lips, #shelf-eyes {
-  position: fixed !important;
-  left: 15vw !important; /* 화면 왼쪽 끝에서 5% 지점으로 강제 이동 */
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 20px !important;
-  z-index: 20 !important;
+/* 2. 전체를 감싸는 바디를 세로 정렬로 변경 */
+body {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: center !important;
+    min-height: 100vh !important;
+    overflow-y: auto !important; /* 내용이 길어지면 스크롤 */
+    overflow-x: hidden !important;
 }
-#shelf-lips { top: 20vh !important; }
-#shelf-eyes { top: 55vh !important; }
 
-/* 3. 오른쪽 아이콘들: 화면 우측 벽에 아예 박제 (20vw만큼 오른쪽으로 밀어냄) */
-#shelf-accessories {
-  position: fixed !important;
-  right: 15vw !important; /* 화면 오른쪽 끝에서 5% 지점으로 강제 이동 */
-  top: 30vh !important;
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 20px !important;
-  z-index: 20 !important;
-}
-/* 모바일 전용: 위아래 2단 배치 */
+/* 3. 모바일 레이아웃 (위: 보드, 아래: 아이콘) */
 @media screen and (max-width: 768px) {
-    body {
-        flex-direction: column; /* 세로로 쌓기 */
-    }
-
-    #board {
-        width: 90vw !important; /* 모바일 폭에 맞춤 */
-        height: 40vh !important;
-        margin-top: 10px;
-    }
-
-    .sticker-shelf {
-        display: flex !important;
-        flex-direction: row !important; /* 에셋들은 가로로 쭉 나열 */
-        flex-wrap: wrap !important;     /* 꽉 차면 자동으로 다음 줄로 */
-        justify-content: center;
+    /* 보드판을 상단으로 */
+    #board, .board {
         width: 90vw !important;
-        gap: 10px;
-        padding-bottom: 20px;
+        height: 40vh !important;
+        margin: 20px auto !important;
+        order: 1; /* 순서 1번 */
+    }
+
+    /* 아이콘 묶음을 보드 아래로 */
+    #shelf-lips, #shelf-eyes, #shelf-accessories {
+        display: flex !important;
+        flex-direction: row !important; /* 가로로 나열 */
+        flex-wrap: wrap !important;     /* 꽉 차면 줄바꿈 */
+        justify-content: center !important;
+        width: 100vw !important;
+        order: 2; /* 순서 2번 (보드 아래) */
+        padding: 10px !important;
+        gap: 15px !important;
     }
 }
