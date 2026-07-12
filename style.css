@@ -426,3 +426,18 @@ html, body {
   gap: 20px !important;
   z-index: 20 !important;
 }
+/* 모바일 전용 설정 */
+@media (max-width: 768px) {
+  /* 보드판을 모바일 화면에 맞춰 작게 조절 */
+  #board {
+    width: 90vw !important;
+    height: 50vh !important;
+  }
+  /* 아이콘들은 한 줄로 모으거나 크기를 조절 */
+  .sticker-shelf {
+    flex-direction: row !important; /* 가로로 배치 */
+    gap: 10px !important;
+    bottom: 10px !important; /* 화면 아래쪽으로 배치 */
+    top: auto !important;
+  }
+}
