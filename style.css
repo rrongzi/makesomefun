@@ -426,26 +426,40 @@ html, body {
   gap: 20px !important;
   z-index: 20 !important;
 }
-/* 모바일 전용 설정 */
-@media (max-width: 768px) {
-  /* 보드판을 모바일 화면에 맞춰 작게 조절 */
+@media screen and (max-width: 768px) {
+  /* 1. 보드판 크기를 모바일에 맞춰 강제로 축소 */
   #board {
-    width: 90vw !important;
-    height: 50vh !important;
-    position: fixed !important;
-    top: 50% !important;
-    left: 50% !important;
-    transform: translate(-50%, -50%) !important;
-    z-index: 10 !important;
+    position: relative !important;
+    margin: 10px auto !important; 
+    width: 90vw !important; /* 화면 폭의 90% */
+    height: 45vh !important; /* 화면 높이의 45%로 축소 */
+    background-size: contain !important; /* 보드 이미지가 잘리지 않게 */
+    background-position: center !important;
+    z-index: 1 !important;
   }
-  /* 아이콘들은 한 줄로 모으거나 크기를 조절 */
+
+  /* 2. 아이콘 선반을 보드판 바로 아래에 배치 */
   .sticker-shelf {
-    width: 90vw !important;
-    height: 50vh !important;
-    position: fixed !important;
-    flex-direction: row !important; /* 가로로 배치 */
-    gap: 10px !important;
-    bottom: 20px !important; /* 화면 아래쪽으로 배치 */
-    top: auto !important;
-    z-index: 5 !important;
+    position: relative !important;
+    display: flex !important;
+    flex-direction: row !important;
+    justify-content: center !important;
+    flex-wrap: wrap !important;
+    gap: 8px !important;
+    margin-top: 15px !important;
+    padding: 0 10px !important;
+    z-index: 2 !important;
   }
+
+  /* 3. 아이콘 크기도 확실하게 줄임 */
+  .sticker-item {
+    width: 50px !important; 
+    height: 50px !important;
+  }
+
+  /* 4. 보드판 위에 배치된 피젯(아이콘)들도 같이 축소 */
+  .fidget-item {
+    width: 80px !important;
+    height: 80px !important;
+  }
+}
