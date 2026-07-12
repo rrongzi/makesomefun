@@ -321,90 +321,103 @@ h1, h2 {
   }
 }
 
-@media (max-width: 860px) {
-  /* 1. 전체 구조를 세로로 강제 정렬 */
-  body { 
-    display: flex !important; 
-    flex-direction: column !important; 
-    align-items: center !important;
-  }
-
-  /* 2. 테마 선택 버튼을 무조건 맨 위로 */
-  .board-theme-picker {
-    order: 1 !important;
-    margin-bottom: 20px !important;
-  }
-
-  /* 3. 보드판을 중앙에 배치 */
-  .board-frame {
-    order: 2 !important;
-    width: 90vw !important;
-    margin: 0 auto 20px auto !important;
-  }
-  
-  .board {
-    width: 100% !important;
-    aspect-ratio: 11/7 !important;
-  }
-
-  /* 4. 에셋들(스티커)을 아래에 비정형으로 옹기종기 모으기 */
-  .sticker-rail, .sidebar, .sticker-shelf {
-    order: 3 !important;
-    display: flex !important;
-    flex-direction: row !important; /* 가로 나열 */
-    flex-wrap: wrap !important;     /* 자동 줄바꿈 */
-    justify-content: center !important;
-    gap: 10px !important;
-    width: 90vw !important;
-  }
-
-  .sticker-item {
-    width: 70px !important; /* 에셋 크기 축소 */
-    height: 70px !important;
-    font-size: 2rem !important;
-  }
+@media (max-width: 480px) {
+  .board { min-height: 380px; }
 }
 
-/* 1. 모든 요소를 가로로 묶는 stage-area 설정 */
+.sticker-item:focus-visible,
+.theme-dot:focus-visible,
+.icon-btn:focus-visible,
+.fidget-item:focus-visible {
+  outline: 2px solid var(--accent-sky);
+  outline-offset: 2px;
+}
+/* 1. 전체 무대 영역을 가로 배치로 확실하게 고정 */
 .stage-area {
     display: flex !important;
-    justify-content: center !important;
+    flex-direction: row !important; /* 무조건 가로로 배치 */
     align-items: center !important;
+    justify-content: center !important; /* 중앙 정렬 */
+    gap: 40px !important; /* 보드와 선반 사이 간격 */
     width: 100vw !important;
-    gap: 0 !important;
-    padding: 0 !important;
+    height: 100vh !important;
+    margin: 0 !important;
+    padding: 0 50px !important;
+    box-sizing: border-box !important;
 }
 
-/* 2. 좌우 선반들을 각각 화면의 똑같은 비율(각 15%)로 할당하여 보드를 가운데로 밈 */
-#shelf-lips, #shelf-eyes, #shelf-accessories {
-    flex: 0 0 15% !important; /* 무조건 똑같은 폭 */
+/* 2. 컬러 선택 버튼을 화면 상단 중앙에 독립적으로 고정 (한 줄에서 제외) */
+.board-theme-picker, .theme-dots, .theme-container {
+    position: fixed !important;
+    top: 30px !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
     display: flex !important;
-    flex-direction: column !important;
+    flex-direction: row !important;
+    gap: 12px !important;
+    z-index: 100 !important;
+}
+
+/* 3. ⭐️ 보드판을 무조건 '정중앙(3번째 순서)'에 오도록 강제 배치 */
+.board-frame, #board, .board {
+    order: 3 !important; /* 왼쪽 선반들(1, 2)과 오른쪽 선반(4)의 딱 중간 */
+    position: relative !important;
+    width: 50vw !important; /* 화면 폭의 절반 차지 */
+    max-width: 800px !important;
+    height: auto !important;
+    aspect-ratio: 11/7 !important;
+    transform: none !important;
+    margin: 0 !important;
+}
+
+/* 4. 왼쪽 에셋 선반들의 배치 순서 강제 고정 */
+#shelf-lips {
+    order: 1 !important; /* 보드 기준 왼쪽 첫 번째 */
+}
+#shelf-eyes {
+    order: 2 !important; /* 보드 기준 왼쪽 두 번째 */
+}
+
+/* 5. 오른쪽 에셋 선반의 배치 순서 강제 고정 */
+#shelf-accessories {
+    order: 4 !important; /* 보드 기준 오른쪽 */
+}
+
+/* 6. 모든 선반 내부의 아이템들은 가로가 아니라 '세로'로 이쁘게 쌓이도록 수정 */
+#shelf-lips, #shelf-eyes, #shelf-accessories, .sticker-rail, .sidebar, .sticker-shelf {
+    display: flex !important;
+    flex-direction: column !important; /* 세로 정렬 */
     align-items: center !important;
     justify-content: center !important;
+    gap: 20px !important;
+    width: auto !important;
+    height: auto !important;
 }
 
-/* 3. 보드는 가운데 공간을 차지하게 함 */
+/* 7. 가로로 찌그러진 에셋 이미지 크기 정상화 */
+.sticker-item {
+    width: 100px !important;
+    height: 100px !important;
+    flex: 0 0 auto !important; /* 크기 변형 방지 */
+}
+
+/* 보드가 화면 정중앙에 올 수 있게 여백을 강제로 맞춥니다 */
+.stage-area {
+    /* 1. 왼쪽/오른쪽 아이콘들의 폭을 동일하게 강제 설정 */
+    justify-content: space-between !important; 
+    padding: 0 5% !important; /* 화면 양옆에 일정한 여백을 줌 */
+}
+
+/* 2. 보드를 부모 안에서 완벽한 가운데로 배치 */
 .board-frame {
-    flex: 0 0 50% !important; /* 보드가 중앙 50%를 차지 */
-    display: flex !important;
-    justify-content: center !important;
-    align-items: center !important;
-}
-
-.board {
-    width: 90% !important;
     margin: 0 auto !important;
+    position: absolute !important;
+    left: 50% !important;
+    transform: translateX(-50%) !important;
 }
 
-/* 4. 모바일 대응 (모바일은 다시 세로 정렬) */
-@media (max-width: 860px) {
-    .stage-area { flex-direction: column !important; height: auto !important; }
-    .board-frame { width: 90vw !important; margin: 60px auto !important; }
-    #shelf-lips, #shelf-eyes, #shelf-accessories {
-        flex: 0 0 auto !important;
-        width: 100vw !important;
-        flex-direction: row !important;
-        flex-wrap: wrap !important;
-    }
+/* 3. 사이드 선반들이 보드를 밀지 않도록 수정 */
+.sticker-rail, .sidebar {
+    position: relative !important;
+    z-index: 10 !important;
 }
