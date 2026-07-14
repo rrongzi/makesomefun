@@ -190,9 +190,9 @@ h1, h2 {
  
 .sticker-shelf {
   display: flex;
-  flex-direction: wrap; 
+  flex-direction: column; 
   align-items: center;
-  gap: 15px;   
+  gap: 25px;   
   padding: 20px;
   min-height: 50px;
   overflow: visible;      
@@ -394,30 +394,85 @@ h1, h2 {
     height: auto !important;
 }
 
-/* 7. 가로로 찌그러진 에셋 이미지 크기 정상화 */
-.sticker-item {
-    width: 100px !important;
-    height: 100px !important;
-    flex: 0 0 auto !important; /* 크기 변형 방지 */
+* 0. 전체 화면 기본 배경 고정 */
+html, body {
+  width: 100vw !important;
+  height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
 }
 
-/* 보드가 화면 정중앙에 올 수 있게 여백을 강제로 맞춥니다 */
-.stage-area {
-    /* 1. 왼쪽/오른쪽 아이콘들의 폭을 동일하게 강제 설정 */
-    justify-content: space-between !important; 
-    padding: 0 5% !important; /* 화면 양옆에 일정한 여백을 줌 */
+/* 1. 가운데 보드판: 다른 애들이 밀든 말든 모니터 딱 정중앙에 고정 */
+.board, #board {
+  position: fixed !important;
+  left: 50% !important;
+  top: 55% !important; /* 상단 버튼 자리를 위해 살짝 아래로 중심 축 이동 */
+  transform: translate(-50%, -50%) !important;
+  
+  /* 📐 보드판 크기 (원하는 비율로 조절 가능) */
+  width: 55vw !important;  
+  height: 65vh !important; 
+  
+  /* 🖼️ PNG 배경 이미지 구석구석 100% 꽉 채우기 (절대 안잘림) */
+  background-size: 100% 100% !important;
+  background-repeat: no-repeat !important;
+  background-position: center !important;
+  
+  margin: 0 !important;
+  z-index: 10 !important;
+  box-sizing: border-box !important;
 }
 
-/* 2. 보드를 부모 안에서 완벽한 가운데로 배치 */
-.board-frame {
-    margin: 0 auto !important;
-    position: absolute !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
+/* 2. 보드 선택 버튼(테마 동그라미): 화면 상단 한가운데에 예쁘게 안착 */
+.theme-dots, .theme-container, div:has(> .theme-dot), div:has(> [data-theme]) {
+  position: fixed !important;
+  left: 50% !important;
+  top: 5vh !important; /* 화면 맨 위에서 5% 내려온 지점 */
+  transform: translateX(-50%) !important; /* 상단 수평 정중앙 정렬 */
+  
+  width: auto !important;
+  height: auto !important;
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 12px !important;
+  z-index: 30 !important;
 }
 
-/* 3. 사이드 선반들이 보드를 밀지 않도록 수정 */
-.sticker-rail, .sidebar {
-    position: relative !important;
-    z-index: 10 !important;
+/* ============================================================
+   🎯 [강제 격리] 아이콘들을 보드판과 물리적으로 떼어놓기
+============================================================ */
+
+/* 1. 보드판은 정중앙 (왼쪽/오른쪽 여백을 넉넉히 확보) */
+.board, #board {
+  position: fixed !important;
+  left: 50% !important;
+  top: 50% !important;
+  transform: translate(-50%, -50%) !important;
+  width: 45vw !important; /* 보드판을 살짝 줄여서 공간 확보 */
+  height: 60vh !important;
+  z-index: 10 !important;
+}
+
+/* 2. 왼쪽 아이콘들: 화면 좌측 벽에 아예 박제 (20vw만큼 왼쪽으로 밀어냄) */
+#shelf-lips, #shelf-eyes {
+  position: fixed !important;
+  left: 15vw !important; /* 화면 왼쪽 끝에서 5% 지점으로 강제 이동 */
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 20px !important;
+  z-index: 20 !important;
+}
+#shelf-lips { top: 20vh !important; }
+#shelf-eyes { top: 55vh !important; }
+
+/* 3. 오른쪽 아이콘들: 화면 우측 벽에 아예 박제 (20vw만큼 오른쪽으로 밀어냄) */
+#shelf-accessories {
+  position: fixed !important;
+  right: 15vw !important; /* 화면 오른쪽 끝에서 5% 지점으로 강제 이동 */
+  top: 30vh !important;
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 20px !important;
+  z-index: 20 !important;
 }
