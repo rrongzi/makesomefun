@@ -429,7 +429,6 @@ h1, h2 {
     border-radius: 50% !important;
     border: 1px solid rgba(0, 0, 0, 0.1) !important;
     box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
-    text-shadow: none !important; /* 그림자 깨짐 방지 */
   }
 
   /* 모바일에서 손가락을 얹거나 호버했을 때 삭제 버튼을 확실히 노출 */
