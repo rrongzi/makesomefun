@@ -320,7 +320,7 @@ padding: 20px;
     align-items: center !important;
     height: 100vh !important;
     /* 상단 버튼 아래와 하단 탭 사이에 완벽한 비율로 안착 */
-    padding: 200px 120px 40px 16px !important; 
+    padding: 200px 120px 40px 40px !important; 
     box-sizing: border-box !important;
     gap: 0 !important;
   }
@@ -417,8 +417,8 @@ padding: 20px;
 /* ⭐️ 흰색 동그라미를 완전히 없애고 원래의 핫핑크 아웃라인 ✕ 스타일로 완벽 롤백 */
   .delete-btn {
     position: absolute !important;
-    top: 15px !important;       
-    right: 3px !important;      
+    top: -10px !important;       
+    right: -10px !important;      
     width: auto !important;
     height: auto !important;
     border: none !important;
