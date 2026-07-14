@@ -73,9 +73,9 @@ const ELEMENT_TYPES = [
   }
 ];
 
-// ↔️ 좌우 지그재그 밀림 강도
-const STICKER_X_OFFSETS = [-35, 35, -45, 40, -30, 45, -40, 30];
-const STICKER_Y_OFFSETS = [-5, 8, -6, 5, -4, 7, -3, 6]; 
+// 🛠️ 1. [교체 부분] % 비율 단위로 작동하도록 오프셋 강도 및 숫자 조정 (X축 확장)
+const STICKER_X_OFFSETS = [-40, 40, -50, 45, -35, 50, -45, 35];
+const STICKER_Y_OFFSETS = [-8, 10, -6, 8, -5, 10, -6, 8]; 
 
 // 고유 ID 생성기 함수
 function makeId() {
@@ -94,9 +94,9 @@ function renderStickers() {
     btn.className = 'sticker-item';
     btn.type = 'button';
     
-    // 지그재그 좌표 주입
-    btn.style.setProperty('--x-off', STICKER_X_OFFSETS[index % STICKER_X_OFFSETS.length] + 'px');
-    btn.style.setProperty('--y-off', STICKER_Y_OFFSETS[index % STICKER_Y_OFFSETS.length] + 'px');
+    // 🛠️ 2. [교체 부분] 'px' 단위를 '%' 비율 단위로 수정하여 주입
+    btn.style.setProperty('--x-off', STICKER_X_OFFSETS[index % STICKER_X_OFFSETS.length] + '%');
+    btn.style.setProperty('--y-off', STICKER_Y_OFFSETS[index % STICKER_Y_OFFSETS.length] + '%');
     
     if (type.img) {
       btn.innerHTML = `<img src="${type.img}" style="width: 100%; height: 100%; pointer-events: none;">`;
