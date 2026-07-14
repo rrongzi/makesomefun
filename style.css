@@ -89,7 +89,7 @@ h1, h2 {
   left: 50% !important;
   top: 53% !important; /* 상단 테마 버튼 아래로 적절히 위치 조정 */
   transform: translate(-50%, -50%) !important;
-  width: 58vw !important;
+  width: 53vw !important;
   max-width: 950px !important;
   height: auto !important;
   aspect-ratio: 11/7 !important;
