@@ -440,72 +440,64 @@ html, body {
 }
 
 /* ============================================================
- /* ============================================================
-   🎯 [완벽 대칭 & 자동 유연 배치] 좌우 균형 및 에셋 자동 흐름 관리
+/* ============================================================
+   🎯 [완벽 균형] 보드판 정중앙 고정 및 에셋 자연스러운 가로 정렬
    ============================================================ */
 
-/* 1. 전체 가로 대칭 및 높이 고정 (화면을 넘어가지 않게 방어) */
-html, body {
-  width: 100vw !important;
-  height: 100vh !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-}
-
-/* 2. 전체 부모 컨테이너가 요소를 확실하게 가로 배치하도록 유도 */
+/* 1. 무대 영역이 양끝으로 밀지 않고, '가운데'를 기준으로 모이게 설정 */
 .stage-area {
   display: flex !important;
   flex-direction: row !important;
-  justify-content: space-between !important; /* 양끝으로 선반 밀기 */
-  align-items: center !important; /* 세로 기준 정중앙 */
+  justify-content: center !important; /* 요소를 정중앙으로 모읍니다 */
+  align-items: center !important;     /* 세로 기준 정중앙 */
   width: 100vw !important;
   height: 100vh !important;
+  gap: 30px !important;               /* ⭐️ 선반과 보드 사이의 자연스러운 간격 */
   padding: 0 40px !important;
   box-sizing: border-box !important;
 }
 
-/* 3. 보드는 화면 정중앙에 '상대적'으로 고정 (양옆 선반들과 간섭 차단) */
+/* 2. 보드판을 무대 한가운데에 정확히 안착 */
 .board-frame, #board, .board {
   position: relative !important;
-  width: 45vw !important; /* 보드판 너비 조절 */
-  max-width: 800px !important;
+  width: 50vw !important;            /* 화면 폭에 맞는 적절한 보드 크기 */
+  max-width: 750px !important;
   height: auto !important;
   aspect-ratio: 11/7 !important;
-  margin: 0 auto !important;
+  margin: 0 !important;              /* 마진으로 인한 밀림 방지 */
   left: auto !important;
   top: auto !important;
   transform: none !important;
   z-index: 10 !important;
 }
 
-/* 4. 좌우 에셋 선반 공간 정의: fixed를 풀고 유연하게 배치 */
+/* 3. 좌우 선반 고정 및 에셋 자동 흐름 설정 */
 #shelf-lips, #shelf-eyes, #shelf-accessories {
-  position: relative !important; /* 고정 위치 해제 */
+  position: relative !important;
   left: auto !important;
   right: auto !important;
-  top: auto !important; /* top: 30vh, 55vh 등 강제 좌표 완전 삭제! */
+  top: auto !important;
   
-  /* 선반 가로 폭을 동일하게 고정하여 보드가 절대 쏠리지 않도록 대칭 유지 */
-  width: 180px !important; 
-  height: 75vh !important; /* 화면 높이의 75% 안에서 에셋들이 배치되도록 공간 제한 */
+  /* 양옆 선반 폭을 150px로 똑같이 맞춰 좌우 대칭 유지 */
+  width: 150px !important; 
+  height: 70vh !important;            /* 선반 영역 안에서만 에셋이 맴돌도록 제한 */
   
   display: flex !important;
-  flex-direction: column !important; /* 세로 정렬 */
+  flex-direction: column !important;  /* 세로 정렬 */
   align-items: center !important;
-  justify-content: center !important; /* 세로 기준 정중앙에 모이게 함 */
-  gap: 15px !important; /* 에셋들 간의 촘촘한 간격 */
+  justify-content: center !important; /* 에셋들을 세로 가운데로 모음 */
+  gap: 15px !important;               /* 에셋끼리 다닥다닥 붙지 않게 적당한 간격 */
   z-index: 20 !important;
 }
 
-/* 5. 에셋 이미지가 찌그러지거나 넘치지 않게 방어 */
+/* 4. 에셋 크기 조절 (새로 추가되어도 일정한 크기 유지) */
 .sticker-item {
   width: 90px !important;
   height: 90px !important;
-  flex: 0 0 auto !important; /* 크기 변형 방지 */
+  flex: 0 0 auto !important;          /* 크기 찌그러짐 방지 */
 }
 
-/* 6. 테마 컬러 도트 상단 중앙 고정 */
+/* 5. 테마 선택 버튼 상단 중앙 고정 */
 .board-theme-picker, .theme-dots, .theme-container {
   position: fixed !important;
   top: 4vh !important;
