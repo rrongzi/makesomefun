@@ -83,20 +83,49 @@ function makeId() {
 }
 
 /* ============================================================================
-   1. 양옆 사이드바에 에셋 반반 자동 배정하기
+/* ============================================================================
+   1. 양옆 사이드바에 에셋 반반 자동 배정하기 (진짜 지그재그 알고리즘 적용!)
 ============================================================================ */
 function renderStickers() {
   if (sidebarLeft) sidebarLeft.innerHTML = '';
   if (sidebarRight) sidebarRight.innerHTML = '';
+
+  // 각 사이드바에 실제로 몇 개가 들어갔는지 세는 카운터
+  let leftCount = 0;
+  let rightCount = 0;
 
   ELEMENT_TYPES.forEach((type, index) => {
     const btn = document.createElement('button');
     btn.className = 'sticker-item';
     btn.type = 'button';
     
-    // 🛠️ 2. [교체 부분] 'px' 단위를 '%' 비율 단위로 수정하여 주입
-    btn.style.setProperty('--x-off', STICKER_X_OFFSETS[index % STICKER_X_OFFSETS.length] + '%');
-    btn.style.setProperty('--y-off', STICKER_Y_OFFSETS[index % STICKER_Y_OFFSETS.length] + '%');
+    // ⭐️ 핵심: 각 사이드바 내부에서 들어간 순서에 따라 확실하게 좌우(% 비율)로 흔들어줍니다.
+    let xOff = 0;
+    let yOff = 0;
+
+    if (index % 2 === 0) {
+      // ⬅️ 왼쪽 사이드바 배치
+      // 들어간 순서가 짝수면 왼쪽(-40%), 홀수면 오른쪽(40%)으로 번갈아가며 튕김
+      xOff = leftCount % 2 === 0 ? -40 : 40;
+      yOff = leftCount % 2 === 0 ? -12 : 12; // 위아래 편차도 줘서 더 역동적이게!
+      
+      btn.style.setProperty('--x-off', xOff + '%');
+      btn.style.setProperty('--y-off', yOff + '%');
+      
+      if (sidebarLeft) sidebarLeft.appendChild(btn);
+      leftCount++; // 왼쪽 카운트 증가
+    } else {
+      // ➡️ 오른쪽 사이드바 배치
+      // 들어간 순서가 짝수면 오른쪽(40%), 홀수면 왼쪽(-40%)으로 번갈아가며 튕김
+      xOff = rightCount % 2 === 0 ? 40 : -40;
+      yOff = rightCount % 2 === 0 ? 12 : -12;
+      
+      btn.style.setProperty('--x-off', xOff + '%');
+      btn.style.setProperty('--y-off', yOff + '%');
+      
+      if (sidebarRight) sidebarRight.appendChild(btn);
+      rightCount++; // 오른쪽 카운트 증가
+    }
     
     if (type.img) {
       btn.innerHTML = `<img src="${type.img}" style="width: 100%; height: 100%; pointer-events: none;">`;
@@ -116,13 +145,6 @@ function renderStickers() {
         saveBoardToStorage();
       }
     });
-
-    // 인덱스가 홀수면 왼쪽, 짝수면 오른쪽 사이드바에 자동으로 고르게 탑재
-    if (index % 2 === 0) {
-      if (sidebarLeft) sidebarLeft.appendChild(btn);
-    } else {
-      if (sidebarRight) sidebarRight.appendChild(btn);
-    }
   });
 }
 
