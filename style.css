@@ -40,19 +40,21 @@ body[data-theme="wood"] .board   { background: url('assets/images/board_green.pn
 body[data-theme="neon"] .board   { background: url('assets/images/board_carpet.png') no-repeat center / cover !important; }
 
 /* ============================================================
-   1. 기본 리셋 & 폰트 & 전체 배치
+   1. 기본 리셋 & 전체 화면 레이아웃
    ============================================================ */
 * {
   box-sizing: border-box;
 }
 
 html, body {
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
+  margin: 0;
+  padding: 0;
+  overflow: hidden; /* 화면 스크롤 방지 */
 }
 
 body {
-  margin: 0;
-  min-height: 100vh;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -67,38 +69,37 @@ h1, h2 {
 }
 
 /* ============================================================
-   2. 무대 영역 및 보드 프레임
+   2. [근본 해결] 무대 영역 및 좌우 대칭 레이아웃 설정
    ============================================================ */
 .stage-area {
   display: flex;
+  flex-direction: row;
+  justify-content: space-between; /* 좌우 사이드바를 양옆 끝으로 밀어 넓은 공간 확보 */
   align-items: center;
-  justify-content: center;
-  gap: 50px;
-  padding: 32px 16px;
-  max-width: 95vw;
-  width: 100%;
+  width: 100vw;
+  height: 100vh;
+  padding: 0 4%;
+  position: relative; /* 보드판 정중앙 absolute의 기준점 */
+  box-sizing: border-box;
 }
 
-.sticker-rail {
-  flex: 0 0 110px;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 50px;
-  padding: 20px 0;
-}
-
+/* ⭐️ 보드판: 양옆 에셋 개수가 비대칭이어도 무조건 모니터 화면의 정중앙에 강제 박제 */
 .board-frame {
-  position: relative;
-  flex: 1;
-  width: 100%;
-  max-width: 1200px; 
+  position: absolute !important;
+  left: 50% !important;
+  top: 53% !important; /* 상단 테마 버튼 아래로 적절히 위치 조정 */
+  transform: translate(-50%, -50%) !important;
+  width: 48vw !important;
+  max-width: 750px !important;
+  height: auto !important;
+  aspect-ratio: 11/7 !important;
+  z-index: 10;
 }
 
 .board {
   position: relative;
-  width: 150%;        
-  aspect-ratio: 11/7;   
+  width: 100% !important;
+  height: 100% !important;
   border-radius: 10px;   
   overflow: hidden;
   transition: background 0.3s ease;
@@ -119,88 +120,24 @@ h1, h2 {
 }
 
 /* ============================================================
-   3. 보드 내부 버튼 및 컨트롤러 스타일
+   3. 양옆 단일 사이드바 (구 선반 시스템 대체)
    ============================================================ */
-.board-theme-picker {
-  position: relative;   
+.sidebar {
+  position: relative;
   display: flex;
-  gap: 12px;
-  margin-top: 40px;
-  margin-bottom: 12px;  
-  justify-content: flex-start; 
-  z-index: 10; 
-}
-
-.theme-dot {
-  width: 40px;
-  height: 30px;         
-  border-radius: 5px;   
-  border: 3px solid #fde2fb;
-  cursor: pointer;
-  transition: transform 0.15s ease;
-}
-
-.theme-dot:hover {
-  transform: scale(1.1);
-}
-
-.theme-dot.active {
-  border-color: #8bffa4; 
-  transform: scale(1.05);
-}
-
-.board-controls {
-  position: absolute;
-  top: 16px;
-  right: 16px;
-  display: flex;
-  gap: 12px;
+  flex-direction: column; /* 스티커가 위에서 아래로 세로로 쌓임 */
+  align-items: center;
+  justify-content: center;
+  width: 150px; /* 좌우 사이드바 폭을 기계처럼 똑같이 맞춤 (대칭 보장) */
+  height: 75vh; /* 화면 상하단을 벗어나지 않도록 세로 정렬 영역 한정 */
+  gap: 20px; /* 에셋 간의 자연스러운 간격 */
   z-index: 20;
 }
 
-.icon-btn {
-  background-color: #ffffff !important; 
-  color: #333333 !important; 
-  border: 2px solid #dddddd;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  font-size: 18px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
-  transition: transform 0.15s ease, opacity 0.15s ease;
-}
-
-.icon-btn:hover { 
-  transform: scale(1.1); 
-}
-
-/* ============================================================
-   4. 양옆 스티커 아이템 스타일
-   ============================================================ */
-.sidebar {
-  display: flex;
-  flex-direction: column;
-  gap: 30px;              
-  padding: 20px;
-}
- 
-.sticker-shelf {
-  display: flex;
-  flex-direction: wrap; 
-  align-items: center;
-  gap: 25px;   
-  padding: 20px;
-  min-height: 50px;
-  overflow: visible;      
-}
-
+/* 스티커 아이템 규격화 */
 .sticker-item {
-  width: 130px;
-  height: 130px;
+  width: 90px !important;
+  height: 90px !important;
   background: transparent;   
   border: none;              
   box-shadow: none;          
@@ -210,6 +147,7 @@ h1, h2 {
   justify-content: center;
   font-size: 3rem;            
   user-select: none;
+  flex: 0 0 auto !important; /* 에셋이 많아져도 크기가 찌그러지지 않고 크기 유지 */
   transform: translate(var(--x-off, 0px), var(--y-off, 0px));
   transition: transform 0.2s ease;
 }
@@ -246,7 +184,7 @@ h1, h2 {
 }
 
 /* ============================================================
-   5. 보드 위에 놓이는 피젯 요소
+   4. 보드 위에 놓이는 피젯 요소
    ============================================================ */
 .fidget-item {
   --rot: 0deg;
@@ -302,6 +240,67 @@ h1, h2 {
 .delete-btn:hover { transform: scale(1.25); color: #ff00fb; }
 
 /* ============================================================
+   5. 보드 내부 버튼 및 컨트롤러 스타일
+   ============================================================ */
+.board-theme-picker, .theme-dots, .theme-container {
+  position: fixed !important;
+  top: 4vh !important; /* 상단 한가운데 고정 */
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  display: flex !important;
+  flex-direction: row !important;
+  gap: 12px !important;
+  z-index: 100 !important;
+}
+
+.theme-dot {
+  width: 40px;
+  height: 30px;         
+  border-radius: 5px;   
+  border: 3px solid #fde2fb;
+  cursor: pointer;
+  transition: transform 0.15s ease;
+}
+
+.theme-dot:hover {
+  transform: scale(1.1);
+}
+
+.theme-dot.active {
+  border-color: #8bffa4; 
+  transform: scale(1.05);
+}
+
+.board-controls {
+  position: absolute;
+  top: 16px;
+  right: 16px;
+  display: flex;
+  gap: 12px;
+  z-index: 20;
+}
+
+.icon-btn {
+  background-color: #ffffff !important; 
+  color: #333333 !important; 
+  border: 2px solid #dddddd;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  font-size: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.1);
+  transition: transform 0.15s ease, opacity 0.15s ease;
+}
+
+.icon-btn:hover { 
+  transform: scale(1.1); 
+}
+
+/* ============================================================
    6. 반응형 모바일 대응
    ============================================================ */
 @media (max-width: 860px) {
@@ -309,15 +308,30 @@ h1, h2 {
   .stage-area {
     flex-direction: column;
     align-items: center;
-  }
-  .sticker-rail {
-    flex-direction: row;
-    flex-wrap: wrap;
     justify-content: center;
+    height: auto;
+    padding: 80px 16px 32px 16px;
+  }
+  .sidebar {
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    width: 90vw !important;
+    height: auto !important;
+    justify-content: center !important;
+    gap: 10px !important;
+    margin: 20px 0;
   }
   .board-frame {
-    width: 100%;
-    max-width: 1000px;
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    width: 90vw !important;
+    max-width: 1000px !important;
+  }
+  .sticker-item {
+    width: 70px !important;
+    height: 70px !important;
   }
 }
 
@@ -331,180 +345,4 @@ h1, h2 {
 .fidget-item:focus-visible {
   outline: 2px solid var(--accent-sky);
   outline-offset: 2px;
-}
-/* 1. 전체 무대 영역을 가로 배치로 확실하게 고정 */
-.stage-area {
-    display: flex !important;
-    flex-direction: row !important; /* 무조건 가로로 배치 */
-    align-items: center !important;
-    justify-content: center !important; /* 중앙 정렬 */
-    gap: 40px !important; /* 보드와 선반 사이 간격 */
-    width: 100vw !important;
-    height: 100vh !important;
-    margin: 0 !important;
-    padding: 0 50px !important;
-    box-sizing: border-box !important;
-}
-
-/* 2. 컬러 선택 버튼을 화면 상단 중앙에 독립적으로 고정 (한 줄에서 제외) */
-.board-theme-picker, .theme-dots, .theme-container {
-    position: fixed !important;
-    top: 30px !important;
-    left: 50% !important;
-    transform: translateX(-50%) !important;
-    display: flex !important;
-    flex-direction: row !important;
-    gap: 12px !important;
-    z-index: 100 !important;
-}
-
-/* 3. ⭐️ 보드판을 무조건 '정중앙(3번째 순서)'에 오도록 강제 배치 */
-.board-frame, #board, .board {
-    order: 3 !important; /* 왼쪽 선반들(1, 2)과 오른쪽 선반(4)의 딱 중간 */
-    position: relative !important;
-    width: 50vw !important; /* 화면 폭의 절반 차지 */
-    max-width: 800px !important;
-    height: auto !important;
-    aspect-ratio: 11/7 !important;
-    transform: none !important;
-    margin: 0 !important;
-}
-
-/* 4. 왼쪽 에셋 선반들의 배치 순서 강제 고정 */
-#shelf-lips {
-    order: 1 !important; /* 보드 기준 왼쪽 첫 번째 */
-}
-#shelf-eyes {
-    order: 2 !important; /* 보드 기준 왼쪽 두 번째 */
-}
-
-/* 5. 오른쪽 에셋 선반의 배치 순서 강제 고정 */
-#shelf-accessories {
-    order: 4 !important; /* 보드 기준 오른쪽 */
-}
-
-/* 6. 모든 선반 내부의 아이템들은 가로가 아니라 '세로'로 이쁘게 쌓이도록 수정 */
-#shelf-lips, #shelf-eyes, #shelf-accessories, .sticker-rail, .sidebar, .sticker-shelf {
-    display: flex !important;
-    flex-direction: column !important; /* 세로 정렬 */
-    align-items: center !important;
-    justify-content: center !important;
-    gap: 20px !important;
-    width: auto !important;
-    height: auto !important;
-}
-
-* 0. 전체 화면 기본 배경 고정 */
-html, body {
-  width: 100vw !important;
-  height: 100vh !important;
-  margin: 0 !important;
-  padding: 0 !important;
-  overflow: hidden !important;
-}
-
-/* 1. 가운데 보드판: 다른 애들이 밀든 말든 모니터 딱 정중앙에 고정 */
-.board, #board {
-  position: fixed !important;
-  left: 50% !important;
-  top: 55% !important; /* 상단 버튼 자리를 위해 살짝 아래로 중심 축 이동 */
-  transform: translate(-50%, -50%) !important;
-  
-  /* 📐 보드판 크기 (원하는 비율로 조절 가능) */
-  width: 55vw !important;  
-  height: 65vh !important; 
-  
-  /* 🖼️ PNG 배경 이미지 구석구석 100% 꽉 채우기 (절대 안잘림) */
-  background-size: 100% 100% !important;
-  background-repeat: no-repeat !important;
-  background-position: center !important;
-  
-  margin: 0 !important;
-  z-index: 10 !important;
-  box-sizing: border-box !important;
-}
-
-/* 2. 보드 선택 버튼(테마 동그라미): 화면 상단 한가운데에 예쁘게 안착 */
-.theme-dots, .theme-container, div:has(> .theme-dot), div:has(> [data-theme]) {
-  position: fixed !important;
-  left: 50% !important;
-  top: 5vh !important; /* 화면 맨 위에서 5% 내려온 지점 */
-  transform: translateX(-50%) !important; /* 상단 수평 정중앙 정렬 */
-  
-  width: auto !important;
-  height: auto !important;
-  display: flex !important;
-  flex-direction: row !important;
-  gap: 12px !important;
-  z-index: 30 !important;
-}
-
-/* ============================================================
-/* ============================================================
-   🎯 [완벽 균형] 보드판 정중앙 고정 및 에셋 자연스러운 가로 정렬
-   ============================================================ */
-
-/* 1. 무대 영역이 양끝으로 밀지 않고, '가운데'를 기준으로 모이게 설정 */
-.stage-area {
-  display: flex !important;
-  flex-direction: row !important;
-  justify-content: center !important; /* 요소를 정중앙으로 모읍니다 */
-  align-items: center !important;     /* 세로 기준 정중앙 */
-  width: 100vw !important;
-  height: 100vh !important;
-  gap: 30px !important;               /* ⭐️ 선반과 보드 사이의 자연스러운 간격 */
-  padding: 0 40px !important;
-  box-sizing: border-box !important;
-}
-
-/* 2. 보드판을 무대 한가운데에 정확히 안착 */
-.board-frame, #board, .board {
-  position: relative !important;
-  width: 50vw !important;            /* 화면 폭에 맞는 적절한 보드 크기 */
-  max-width: 750px !important;
-  height: auto !important;
-  aspect-ratio: 11/7 !important;
-  margin: 0 !important;              /* 마진으로 인한 밀림 방지 */
-  left: auto !important;
-  top: auto !important;
-  transform: none !important;
-  z-index: 10 !important;
-}
-
-/* 3. 좌우 선반 고정 및 에셋 자동 흐름 설정 */
-#shelf-lips, #shelf-eyes, #shelf-accessories {
-  position: relative !important;
-  left: auto !important;
-  right: auto !important;
-  top: auto !important;
-  
-  /* 양옆 선반 폭을 150px로 똑같이 맞춰 좌우 대칭 유지 */
-  width: 150px !important; 
-  height: 70vh !important;            /* 선반 영역 안에서만 에셋이 맴돌도록 제한 */
-  
-  display: flex !important;
-  flex-direction: column !important;  /* 세로 정렬 */
-  align-items: center !important;
-  justify-content: center !important; /* 에셋들을 세로 가운데로 모음 */
-  gap: 15px !important;               /* 에셋끼리 다닥다닥 붙지 않게 적당한 간격 */
-  z-index: 20 !important;
-}
-
-/* 4. 에셋 크기 조절 (새로 추가되어도 일정한 크기 유지) */
-.sticker-item {
-  width: 90px !important;
-  height: 90px !important;
-  flex: 0 0 auto !important;          /* 크기 찌그러짐 방지 */
-}
-
-/* 5. 테마 선택 버튼 상단 중앙 고정 */
-.board-theme-picker, .theme-dots, .theme-container {
-  position: fixed !important;
-  top: 4vh !important;
-  left: 50% !important;
-  transform: translateX(-50%) !important;
-  display: flex !important;
-  flex-direction: row !important;
-  gap: 12px !important;
-  z-index: 100 !important;
 }
