@@ -7,89 +7,66 @@ const resetBtn = document.getElementById('resetBtn');
 const bgmBtn = document.getElementById('bgmBtn');
 const boardEmpty = document.querySelector('.board-empty') || document.getElementById('board-empty');
 
+// ⬅️ ➡️ 단일 사이드바 연결 (선반 시스템 대체)
+const sidebarLeft = document.getElementById('sidebar-left');
+const sidebarRight = document.getElementById('sidebar-right');
+
 const STORAGE_KEY = 'fidget-board-state-v1';
 
-// 💄 피젯 요소 종류 정의 (★스티커 10종 확장 완료!)
+// 💄 피젯 에셋 리스트 (라벨 제거 완료! 에셋 추가 시 이 배열만 수정하면 끝)
 const ELEMENT_TYPES = [
-  // 💋 1. 립 선반 구역 (targetShelf: 'shelf-lips')
   { 
     id: 'gini', 
-    targetShelf: 'shelf-lips', 
-    label: '레드립', 
-    img: 'assets/images/gini.png', // 👈 이모지 대신 이미지 경로!
+    img: 'assets/images/gini.png', 
     color: '#ff3333', 
     soundFreqs: [200], 
     soundFiles: ['gini.mp3'] 
   },
-
   { 
     id: 'keycap', 
-    targetShelf: 'shelf-lips', 
-    label: '레드립', 
-    img: 'assets/images/keycap.png', // 👈 이모지 대신 이미지 경로!
+    img: 'assets/images/keycap.png', 
     color: '#ff3333', 
     soundFreqs: [320], 
     soundFiles: ['keycap.wav'] 
   },
-
-  // 👀 2. 아이메이크업 구역 (targetShelf: 'shelf-eyes')
   { 
     id: 'nail', 
-    targetShelf: 'shelf-lips', 
-    label: '레드립', 
-    img: 'assets/images/nail.png', // 👈 이모지 대신 이미지 경로!
+    img: 'assets/images/nail.png', 
     color: '#ff3333', 
     soundFreqs: [320], 
     soundFiles: ['nail.wav'] 
   },
-
   { 
     id: 'glass', 
-    targetShelf: 'shelf-lips', 
-    label: '레드립', 
-    img: 'assets/images/cup.png', // 👈 이모지 대신 이미지 경로!
+    img: 'assets/images/cup.png', 
     color: '#ff3333', 
     soundFreqs: [320], 
     soundFiles: ['glass.wav'] 
   },
-
-
-  // 🎀 3. 액세서리 구역 (targetShelf: 'shelf-accessories')
   { 
     id: 'wood', 
-    targetShelf: 'shelf-accessories', 
-    label: '레드립', 
-    img: 'assets/images/wood.png', // 👈 이모지 대신 이미지 경로!
+    img: 'assets/images/wood.png', 
     color: '#ff3333', 
     soundFreqs: [320], 
     soundFiles: ['wood.wav'] 
   },
-
   { 
     id: 'brush', 
-    targetShelf: 'shelf-accessories', 
-    label: '레드립', 
-    img: 'assets/images/brush.png', // 👈 이모지 대신 이미지 경로!
+    img: 'assets/images/brush.png', 
     color: '#ff3333', 
     soundFreqs: [320], 
     soundFiles: ['brush.wav'] 
   },
-  
   { 
     id: 'bubblewrap', 
-    targetShelf: 'shelf-accessories', 
-    label: '레드립', 
-    img: 'assets/images/bubblewrap.png', // 👈 이모지 대신 이미지 경로!
+    img: 'assets/images/bubblewrap.png', 
     color: '#ff3333', 
     soundFreqs: [320], 
     soundFiles: ['bubblewrap.wav'] 
   },
-   
-   { 
+  { 
     id: 'button', 
-    targetShelf: 'shelf-accessories', 
-    label: '레드립', 
-    img: 'assets/images/button.png', // 👈 이모지 대신 이미지 경로!
+    img: 'assets/images/button.png', 
     color: '#ff3333', 
     soundFreqs: [320], 
     soundFiles: ['button.wav'] 
@@ -106,35 +83,30 @@ function makeId() {
 }
 
 /* ============================================================================
-   1. 양옆 선반에 스티커 아이콘들 그려주기
+   1. 양옆 사이드바에 에셋 반반 자동 배정하기
 ============================================================================ */
 function renderStickers() {
-  document.querySelectorAll('.sticker-shelf').forEach(shelf => shelf.innerHTML = '');
+  if (sidebarLeft) sidebarLeft.innerHTML = '';
+  if (sidebarRight) sidebarRight.innerHTML = '';
 
   ELEMENT_TYPES.forEach((type, index) => {
-    const targetShelfEl = document.getElementById(type.targetShelf);
-    if (!targetShelfEl) return; 
-
     const btn = document.createElement('button');
     btn.className = 'sticker-item';
     btn.type = 'button';
-    btn.title = type.label;
     
     // 지그재그 좌표 주입
     btn.style.setProperty('--x-off', STICKER_X_OFFSETS[index % STICKER_X_OFFSETS.length] + 'px');
     btn.style.setProperty('--y-off', STICKER_Y_OFFSETS[index % STICKER_Y_OFFSETS.length] + 'px');
     
-   // 수정 전: btn.innerHTML = `<span>${type.emoji}</span>`;
-// 수정 후:
-if (type.img) {
-  btn.innerHTML = `<img src="${type.img}" style="width: 100%; height: 100%; pointer-events: none;">`;
-} else {
-  btn.innerHTML = `<span>${type.emoji}</span>`;
-}3
+    if (type.img) {
+      btn.innerHTML = `<img src="${type.img}" style="width: 100%; height: 100%; pointer-events: none;">`;
+    } else {
+      btn.innerHTML = `<span>${type.emoji}</span>`;
+    }
 
     btn.addEventListener('animationend', () => btn.classList.remove('pop'));
     
-    // ✨ 누락되었던 스티커 드래그/클릭 기능 연결!
+    // 스티커 드래그/클릭 기능 연결
     enableStickerDrag(btn, type);
 
     btn.addEventListener('keydown', (e) => {
@@ -145,22 +117,25 @@ if (type.img) {
       }
     });
 
-    targetShelfEl.appendChild(btn);
+    // 인덱스가 홀수면 왼쪽, 짝수면 오른쪽 사이드바에 자동으로 고르게 탑재
+    if (index % 2 === 0) {
+      if (sidebarLeft) sidebarLeft.appendChild(btn);
+    } else {
+      if (sidebarRight) sidebarRight.appendChild(btn);
+    }
   });
 }
 
 /* ============================================================================
-   2. [새로 구현] 스티커 드래그 및 클릭 설치 기능
+   2. 스티커 드래그 및 클릭 설치 기능
 ============================================================================ */
 function enableStickerDrag(btn, type) {
-  // 🖱️ 단순히 클릭하면 보드 빈 곳에 무작위로 자동 생성
   btn.addEventListener('click', () => {
     btn.classList.add('pop');
     addItemToBoard(type.id);
     saveBoardToStorage();
   });
   
-  // 🖐️ 꾹 눌러서 보드로 드래그 앤 드롭하는 기능 (CSS 마크업의 .drag-ghost 적극 활용)
   let ghost = null;
   let isDragging = false;
   
@@ -181,7 +156,6 @@ function enableStickerDrag(btn, type) {
       document.body.appendChild(ghost);
     }
     
-    // 마우스/손가락 위치에 따라 유령 이미지 이동
     ghost.style.left = (e.clientX - 42) + 'px';
     ghost.style.top = (e.clientY - 42) + 'px';
   });
@@ -193,14 +167,12 @@ function enableStickerDrag(btn, type) {
     
     if (ghost) {
       const boardRect = board.getBoundingClientRect();
-      // 보드 영역 내부 격자에 놓았는지 판정
       if (
         e.clientX >= boardRect.left &&
         e.clientX <= boardRect.right &&
         e.clientY >= boardRect.top &&
         e.clientY <= boardRect.bottom
       ) {
-        // 정확히 마우스 뗀 자리에 피젯 생성 (피젯 크기 120px의 절반인 60 픽셀 보정)
         const x = e.clientX - boardRect.left - 60; 
         const y = e.clientY - boardRect.top - 60;
         addItemToBoard(type.id, x, y);
@@ -425,7 +397,7 @@ function updateEmptyMessage() {
 }
 
 /* ============================================================================
-   6. 로컬 스토리지 데이터 저장 / 불러오기 (★테마 기억 기능 추가)
+   6. 로컬 스토리지 데이터 저장 / 불러오기
 ============================================================================ */
 function saveBoardToStorage() {
   try {
@@ -435,7 +407,6 @@ function saveBoardToStorage() {
       x: el.offsetLeft,
       y: el.offsetTop,
     }));
-    // 현재 적용된 데이터 테마 값도 함께 추출해서 저장
     const currentTheme = document.body.getAttribute('data-theme') || 'arcade';
     localStorage.setItem(STORAGE_KEY, JSON.stringify({ items, theme: currentTheme }));
   } catch (err) {
@@ -449,7 +420,6 @@ function loadBoardFromStorage() {
     if (!raw) return;
     const data = JSON.parse(raw);
     
-    // 🎨 테마 저장 기록이 있다면 복구 후 버튼 불 켜기
     if (data.theme) {
       document.body.setAttribute('data-theme', data.theme);
       if (themeSwitcher) {
@@ -480,18 +450,14 @@ function clearBoardStorage() {
 /* ============================================================================
    7. 버튼 클릭 이벤트 연결 구역
 ============================================================================ */
-
-// 🎨 [새로 구현] 배경 바꾸기 버튼 클릭 감지 기능!
 if (themeSwitcher) {
   themeSwitcher.addEventListener('click', (e) => {
     const dot = e.target.closest('.theme-dot');
     if (!dot) return;
 
-    // 모든 점의 동그라미 테두리 active 불 끄고 클릭한 것만 켜기
     themeSwitcher.querySelectorAll('.theme-dot').forEach(d => d.classList.remove('active'));
     dot.classList.add('active');
 
-    // HTML body의 data-theme 값을 바꿈으로써 CSS 배경 교체 발동!
     const choice = dot.dataset.themeChoice;
     document.body.setAttribute('data-theme', choice);
     
@@ -499,7 +465,6 @@ if (themeSwitcher) {
   });
 }
 
-// ↺ 초기화 버튼
 if (resetBtn) {
   resetBtn.addEventListener('click', () => {
     board.querySelectorAll('.fidget-item').forEach((el) => el.remove());
@@ -508,7 +473,6 @@ if (resetBtn) {
   });
 }
 
-// 🔈 배경음악 버튼
 let bgmAudio = null;
 let bgmOn = false;
 
