@@ -337,69 +337,31 @@ h1, h2 {
 }
 
 /* ============================================================
-   6. 반응형 모바일 대응 (모바일 화면 최적화)
+   6. 반응형 모바일 대응 (상단 버튼 고정 + 보드/에셋 하단 배치)
    ============================================================ */
 @media (max-width: 860px) {
-  /* 0. 모바일에서 세로 스크롤 허용 및 터치 튕김 방지 */
   html, body {
     height: 100% !important;
-    overflow: hidden !important; /* 스티커 조작을 위해 전체 스크롤 방지 */
+    overflow: hidden !important;
   }
   
-  /* 1. 무대 영역 세로 정렬 구조로 변경 */
+  /* 1. 무대 영역: 상단 버튼 자리를 비워두고 전체를 아래쪽 위주로 정렬 */
   .stage-area {
     flex-direction: column !important;
-    justify-content: space-between !important;
+    justify-content: flex-end !important; /* 요소를 하단으로 밀어 넣음 */
     align-items: center !important;
     height: 100vh !important;
-    padding: 70px 16px 80px 16px !important; /* 상하단 버튼 영역 확보를 위한 여백 */
+    padding: 0 16px 4vh 16px !important; /* 상단 여유 확보 및 하단 4% 띄움 */
     box-sizing: border-box !important;
+    gap: 15px !important; /* 보드와 에셋 사이 세로 간격 최소화 */
   }
 
-  /* 2. ⭐️ [잘림 방지] 보드판 비율 $11:7$ 완벽 유지 및 자동 크기 조절 */
-  .board-frame {
-    position: relative !important;
-    left: auto !important;
-    top: auto !important;
-    transform: none !important;
-    
-    /* 모바일 화면 가로폭을 넘지 않도록 비율 설정 */
-    width: 85vw !important; 
-    max-width: 500px !important;
-    height: auto !important;
-    aspect-ratio: 11/7 !important; /* 원래 비율 칼같이 사수 */
-    z-index: 10 !important;
-    margin: auto 0 !important; /* 세로 기준 중앙 배치 */
-  }
-
-  .board {
-    width: 100% !important;
-    height: 100% !important;
-    background-size: 100% 100% !important; /* 배경 이미지 절대 안 잘리게 박제 */
-  }
-
-  /* 3. 에셋 사이드바 분할 배치 (위/아래로 분리) */
-  .sidebar {
-    flex-direction: row !important; /* 모바일에서는 가로로 한 줄 배치 */
-    flex-wrap: nowrap !important;  /* 줄바꿈 없이 가로로 둥둥 뜨게 */
-    width: 90vw !important;
-    height: auto !important;
-    justify-content: space-around !important;
-    gap: 10px !important;
-    z-index: 20 !important;
-  }
-
-  /* 모바일용 에셋 크기 살짝 축소하여 여유 공간 확보 */
-  .sticker-item {
-    width: 70px !important;
-    height: 70px !important;
-    transform: translate(var(--x-off, 0%), var(--y-off, 0%)) !important; /* 지그재그 유지 */
-  }
-
-  /* 4. 상단 테마 선택 버튼 고정 */
+  /* 2. 원래 자리에 고정할 상단 요소들 */
+  
+  /* 🎨 테마 선택 버튼: 상단 고정 */
   .board-theme-picker {
     position: fixed !important;
-    top: 15px !important;
+    top: 20px !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
     display: flex !important;
@@ -409,24 +371,58 @@ h1, h2 {
     z-index: 100 !important;
   }
 
-  /* 5. ⭐️ [요청 반영] 초기화, 사운드 버튼 화면 맨 밑(하단)으로 이동 */
+  /* ⚙️ 우측 상단 컨트롤 (초기화, bgm) 버튼: 원래 자리에 완벽 고정 */
   .board-controls {
     position: fixed !important;
-    top: auto !important; /* 기존 top 설정 강제 초기화 */
-    bottom: 20px !important; /* 화면 하단에서 살짝 위로 띄움 */
-    left: 50% !important;
-    right: auto !important; /* 기존 right 설정 강제 초기화 */
-    transform: translateX(-50%) !important; /* 하단 가로 정중앙 배치 */
+    top: 16px !important;
+    right: 16px !important;
+    left: auto !important;
+    bottom: auto !important;
+    transform: none !important;
     display: flex !important;
     flex-direction: row !important;
-    gap: 20px !important; /* 두 버튼 사이 간격 넓힘 */
+    gap: 12px !important;
     z-index: 100 !important;
   }
 
-  /* 하단 아이콘 버튼 스타일 피팅 */
-  .icon-btn {
-    width: 45px !important;
-    height: 45px !important;
-    font-size: 20px !important;
+  /* 3. ⭐️ 보드판: 위쪽 버튼들과 절대 겹치지 않게 하단 영역에 조화롭게 안착 */
+  .board-frame {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    transform: none !important;
+    
+    width: 82vw !important; /* 잘림 방지 안전 가로폭 */
+    max-width: 480px !important;
+    height: auto !important;
+    aspect-ratio: 11/7 !important; /* 비율 칼고정 */
+    z-index: 10 !important;
+    margin: 10px 0 !important;
+  }
+
+  .board {
+    width: 100% !important;
+    height: 100% !important;
+    background-size: 100% 100% !important;
+  }
+
+  /* 4. 에셋 사이드바: 보드판 위/아래로 분할 배치 */
+  .sidebar {
+    flex-direction: row !important; /* 가로 한 줄 정렬 */
+    flex-wrap: nowrap !important;
+    width: 90vw !important;
+    height: auto !important;
+    justify-content: space-around !important;
+    gap: 8px !important;
+    padding: 0 !important;
+    z-index: 20 !important;
+  }
+
+  /* ⭐️ 너무 튀어 나가지 않고 얌전하게 지그재그 효과 주도록 범위 대폭 축소 */
+  .sticker-item {
+    width: 68px !important;
+    height: 68px !important;
+    /* 얌전하게 15% 한도 내에서만 살짝 빗겨나가게 제어 */
+    transform: translate(calc(var(--x-off, 0%) * 0.35), calc(var(--y-off, 0%) * 0.35)) !important;
   }
 }
