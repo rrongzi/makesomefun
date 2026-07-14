@@ -89,8 +89,8 @@ h1, h2 {
   left: 50% !important;
   top: 53% !important; /* 상단 테마 버튼 아래로 적절히 위치 조정 */
   transform: translate(-50%, -50%) !important;
-  width: 48vw !important;
-  max-width: 750px !important;
+  width: 58vw !important;
+  max-width: 950px !important;
   height: auto !important;
   aspect-ratio: 11/7 !important;
   z-index: 10;
@@ -126,18 +126,19 @@ h1, h2 {
   position: relative;
   display: flex;
   flex-direction: column; /* 스티커가 위에서 아래로 세로로 쌓임 */
+  flex-wrap: wrap;
   align-items: center;
   justify-content: center;
-  width: 150px; /* 좌우 사이드바 폭을 기계처럼 똑같이 맞춤 (대칭 보장) */
-  height: 75vh; /* 화면 상하단을 벗어나지 않도록 세로 정렬 영역 한정 */
-  gap: 20px; /* 에셋 간의 자연스러운 간격 */
+  width: 250px; /* 좌우 사이드바 폭을 기계처럼 똑같이 맞춤 (대칭 보장) */
+  height: 80vh; /* 화면 상하단을 벗어나지 않도록 세로 정렬 영역 한정 */
+  gap: 25px 15px; /* 에셋 간의 자연스러운 간격 */
   z-index: 20;
 }
 
 /* 스티커 아이템 규격화 */
 .sticker-item {
-  width: 90px !important;
-  height: 90px !important;
+  width: 110px !important;
+  height: 110px !important;
   background: transparent;   
   border: none;              
   box-shadow: none;          
