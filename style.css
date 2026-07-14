@@ -302,42 +302,7 @@ h1, h2 {
 }
 
 /* ============================================================
-   6. 반응형 모바일 대응
-   ============================================================ */
-@media (max-width: 860px) {
-  body { display: block; }
-  .stage-area {
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    height: auto;
-    padding: 80px 16px 32px 16px;
-  }
-  .sidebar {
-    flex-direction: row !important;
-    flex-wrap: wrap !important;
-    width: 90vw !important;
-    height: auto !important;
-    justify-content: center !important;
-    gap: 10px !important;
-    margin: 20px 0;
-  }
-  .board-frame {
-    position: relative !important;
-    left: auto !important;
-    top: auto !important;
-    transform: none !important;
-    width: 90vw !important;
-    max-width: 1000px !important;
-  }
-  .sticker-item {
-    width: 70px !important;
-    height: 70px !important;
-  }
-}
-
-/* ============================================================
-   6. 반응형 모바일 대응 (상단-중단-하단 순차 배치형)
+   6. 반응형 모바일 대응 (사운드 버튼 우측 상단 고정 + 나머지 전체 하강)
    ============================================================ */
 @media (max-width: 860px) {
   html, body {
@@ -345,22 +310,43 @@ h1, h2 {
     overflow: hidden !important;
   }
   
-  /* 1. 무대 영역: 요소를 화면 전체에 위-아래 골고루 분배 */
+  /* 1. 무대 영역: 우측 상단 버튼들과 겹치지 않도록 위쪽 여백(padding-top)을 대폭 넓힘 */
   .stage-area {
     display: flex !important;
     flex-direction: column !important;
-    justify-content: space-between !important; /* 위, 중간, 아래를 고르게 수직 분배 */
+    justify-content: space-between !important; /* 요소들을 세로로 고르게 분배 */
     align-items: center !important;
     height: 100vh !important;
-    padding: 85px 16px 90px 16px !important; /* 상하단 고정 버튼들과 겹치지 않도록 안전 마진 확보 */
+    /* ⭐️ 중요: 상단 버튼들의 영역(약 135px)을 확실하게 비워두고 그 아래부터 요소를 배치 */
+    padding: 135px 16px 30px 16px !important; 
     box-sizing: border-box !important;
     gap: 0 !important;
   }
 
-  /* 2. 🎨 테마 선택 버튼: 상단에 자연스럽게 위치 고정 */
+  /* 2. ⚙️ [원래 자리 고정] 초기화 & 사운드 버튼: 우측 상단에 칼같이 박제 */
+  .board-controls {
+    position: fixed !important;
+    top: 16px !important;
+    right: 16px !important;
+    left: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    display: flex !important;
+    flex-direction: row !important;
+    gap: 12px !important;
+    z-index: 100 !important;
+  }
+
+  .icon-btn {
+    width: 40px !important;
+    height: 40px !important;
+    font-size: 18px !important;
+  }
+
+  /* 3. 🎨 [하강] 테마 선택 버튼: 상단 컨트롤 버튼들과 안 겹치게 아래로 쑥 내림 */
   .board-theme-picker {
     position: fixed !important;
-    top: 25px !important; /* 모바일 노치 영역 아래에 자연스럽게 안착 */
+    top: 80px !important; /* ⭐️ 우측 상단 버튼(16px)보다 훨씬 밑으로 떨어뜨려 겹침 원천 차단 */
     left: 50% !important;
     transform: translateX(-50%) !important;
     display: flex !important;
@@ -370,40 +356,19 @@ h1, h2 {
     z-index: 100 !important;
   }
 
-  /* 3. ⚙️ 초기화 & 사운드 버튼: 화면 맨 아래로 격리 수송 */
-  .board-controls {
-    position: fixed !important;
-    top: auto !important;
-    bottom: 25px !important; /* 화면 최하단에서 25px 띄움 */
-    left: 50% !important;
-    right: auto !important;
-    transform: translateX(-50%) !important;
-    display: flex !important;
-    flex-direction: row !important;
-    gap: 24px !important; /* 누르기 편하게 버튼 간격 넓힘 */
-    z-index: 100 !important;
-  }
-
-  .icon-btn {
-    width: 45px !important;
-    height: 45px !important;
-    font-size: 18px !important;
-    box-shadow: 0 3px 10px rgba(0,0,0,0.15) !important;
-  }
-
-  /* 4. 🖥️ 보드판: 화면 정중앙에 위치시키고 비율 사수 */
+  /* 4. 🖥️ 보드판: 화면 비율 완벽 사수하며 안착 */
   .board-frame {
     position: relative !important;
     left: auto !important;
     top: auto !important;
     transform: none !important;
     
-    width: 82vw !important; /* 화면을 벗어나지 않는 안전 가로폭 */
+    width: 82vw !important;
     max-width: 460px !important;
     height: auto !important;
-    aspect-ratio: 11/7 !important; /* 11:7 비율 완벽 박제 */
+    aspect-ratio: 11/7 !important; /* 비율 박제 */
     z-index: 10 !important;
-    margin: 15px 0 !important; /* 위아래 에셋들과의 자연스러운 간격 유지 */
+    margin: 10px 0 !important;
   }
 
   .board {
@@ -412,24 +377,42 @@ h1, h2 {
     background-size: 100% 100% !important;
   }
 
-  /* 5. 📦 위/아래 에셋 사이드바: 가로로 겹치지 않고 자연스럽게 흐르도록 설정 */
+  /* 5. 📦 위/아래 에셋 사이드바: 가로 정렬 및 간격 확보 */
   .sidebar {
     position: relative !important;
-    flex-direction: row !important; /* 가로 한 줄 정렬 */
+    flex-direction: row !important;
     flex-wrap: nowrap !important;
-    width: 85vw !important; /* 에셋들이 너무 양끝으로 찢어지지 않게 가로 폭 한정 */
+    width: 85vw !important; /* 양끝으로 찢어짐 방지 */
     height: auto !important;
-    justify-content: space-between !important; /* 균일한 간격으로 분배 */
+    justify-content: space-between !important;
     padding: 0 !important;
     z-index: 20 !important;
   }
 
-  /* 6. ⭐️ 에셋 크기 규격화 및 날아다님 방지 2차 조율 */
+  /* 에셋 크기 조율 및 얌전한 지그재그 적용 */
   .sticker-item {
-    width: 62px !important;  /* 모바일 화면에서 답답하지 않은 최적의 콤팩트 크기 */
+    width: 62px !important;
     height: 62px !important;
-    
-    /* 15% 수준의 얌전하고 귀여운 오프셋만 적용되도록 제어 */
     transform: translate(calc(var(--x-off, 0%) * 0.35), calc(var(--y-off, 0%) * 0.35)) !important;
+  }
+
+  /* ============================================================
+     ⭐️ 보드 위에 올라가는 피젯 아이템도 비율에 맞춰 자동 축소
+     ============================================================ */
+  .fidget-item {
+    width: 14vw !important;       
+    height: 14vw !important;       
+  }
+
+  .delete-btn {
+    top: 10px !important;
+    right: 2px !important;
+    font-size: 11px !important;
+  }
+
+  .fidget-item .item-emoji {
+    font-size: 8vw !important;
+    width: 100% !important;
+    height: 100% !important;
   }
 }
