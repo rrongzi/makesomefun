@@ -318,7 +318,7 @@ h1, h2 {
     align-items: center !important;
     height: 100vh !important;
     /* 상단 버튼 아래와 하단 탭 사이에 완벽한 비율로 안착 */
-    padding: 135px 16px 40px 16px !important; 
+    padding: 160px 30px 40px 16px !important; 
     box-sizing: border-box !important;
     gap: 0 !important;
   }
