@@ -320,7 +320,7 @@ padding: 20px;
     align-items: center !important;
     height: 100vh !important;
     /* 상단 버튼 아래와 하단 탭 사이에 완벽한 비율로 안착 */
-    padding: 200px 100px 40px 16px !important; 
+    padding: 200px 120px 40px 16px !important; 
     box-sizing: border-box !important;
     gap: 0 !important;
   }
@@ -414,23 +414,24 @@ padding: 20px;
     height: 100% !important;
   }
 
-  /* ✕ 삭제 버튼이 피젯 크기에 쪼그라들어 찌그러지거나 깨지지 않도록 절대 크기 재설정 */
+/* ⭐️ 흰색 동그라미를 완전히 없애고 원래의 핫핑크 아웃라인 ✕ 스타일로 완벽 롤백 */
   .delete-btn {
     position: absolute !important;
-    top: -5px !important;      /* 스티커 우측 상단 모서리에 이쁘게 안착 */
-    right: -5px !important;     
-    width: 22px !important;    /* 찌그러지지 않는 고정 픽셀 규격 지정 */
-    height: 22px !important;
-    font-size: 14px !important; /* 글자 겹치거나 깨지지 않게 크기 세팅 */
-    line-height: 22px !important;
-    display: flex !important;
-    align-items: center !important;
-    justify-content: center !important;
-    opacity: 0 !important;      /* 평소엔 숨겨두었다가 호버 시 표시하는 로직 보존 */
-    color: #ff00fb !important;
-    border-radius: 50% !important;
-    border: 1px solid rgba(0, 0, 0, 0.1) !important;
-    box-shadow: 0 2px 5px rgba(0,0,0,0.2) !important;
+    top: 15px !important;       
+    right: 3px !important;      
+    width: auto !important;
+    height: auto !important;
+    border: none !important;
+    background: transparent !important; /* 둥근 배경 지우고 완전히 투명하게 */
+    box-shadow: none !important;
+    border-radius: 0 !important;
+    
+    /* 원래의 형광 핑크색 글씨와 하얀 아웃라인 섀도우 복구 */
+    color: hsl(294, 100%, 49%) !important;
+    font-size: 15px !important;   
+    font-family: "Jua", sans-serif !important; 
+    opacity: 0 !important;
+    transition: opacity 0.15s ease, transform 0.15s ease !important;
   }
 
   /* 모바일에서 손가락을 얹거나 호버했을 때 삭제 버튼을 확실히 노출 */
