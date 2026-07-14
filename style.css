@@ -190,7 +190,7 @@ h1, h2 {
  
 .sticker-shelf {
   display: flex;
-  flex-direction: column; 
+  flex-direction: wrap; 
   align-items: center;
   gap: 25px;   
   padding: 20px;
