@@ -382,13 +382,15 @@ padding: 20px;
   /* 5. 📦 위/아래 에셋 사이드바: 찢어짐 없는 가로 배치 고정 */
   .sidebar {
     position: relative !important;
+    display: flex !important;
     flex-direction: row !important;
     flex-wrap: nowrap !important;
-    width: 88vw !important; /* 모바일 폭에 맞게 자연스러운 꽉 찬 가로 정렬 */
+    width: 75vw !important; /* 모바일 폭에 맞게 자연스러운 꽉 찬 가로 정렬 */
     margin: 0 auto;
     height: auto !important;
-    justify-content: space-between !important; /* ⭐️ 가로 간격 일정하게 칼정렬 */
+    justify-content: center !important; /* ⭐️ 가로 간격 일정하게 칼정렬 */
     padding: 0 !important;
+    gap: 4vw;
     z-index: 20 !important;
   }
 
