@@ -440,39 +440,79 @@ html, body {
 }
 
 /* ============================================================
-   🎯 [강제 격리] 아이콘들을 보드판과 물리적으로 떼어놓기
-============================================================ */
+ /* ============================================================
+   🎯 [완벽 대칭 & 자동 유연 배치] 좌우 균형 및 에셋 자동 흐름 관리
+   ============================================================ */
 
-/* 1. 보드판은 정중앙 (왼쪽/오른쪽 여백을 넉넉히 확보) */
-.board, #board {
-  position: fixed !important;
-  left: 50% !important;
-  top: 50% !important;
-  transform: translate(-50%, -50%) !important;
-  width: 45vw !important; /* 보드판을 살짝 줄여서 공간 확보 */
-  height: 60vh !important;
+/* 1. 전체 가로 대칭 및 높이 고정 (화면을 넘어가지 않게 방어) */
+html, body {
+  width: 100vw !important;
+  height: 100vh !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  overflow: hidden !important;
+}
+
+/* 2. 전체 부모 컨테이너가 요소를 확실하게 가로 배치하도록 유도 */
+.stage-area {
+  display: flex !important;
+  flex-direction: row !important;
+  justify-content: space-between !important; /* 양끝으로 선반 밀기 */
+  align-items: center !important; /* 세로 기준 정중앙 */
+  width: 100vw !important;
+  height: 100vh !important;
+  padding: 0 40px !important;
+  box-sizing: border-box !important;
+}
+
+/* 3. 보드는 화면 정중앙에 '상대적'으로 고정 (양옆 선반들과 간섭 차단) */
+.board-frame, #board, .board {
+  position: relative !important;
+  width: 45vw !important; /* 보드판 너비 조절 */
+  max-width: 800px !important;
+  height: auto !important;
+  aspect-ratio: 11/7 !important;
+  margin: 0 auto !important;
+  left: auto !important;
+  top: auto !important;
+  transform: none !important;
   z-index: 10 !important;
 }
 
-/* 2. 왼쪽 아이콘들: 화면 좌측 벽에 아예 박제 (20vw만큼 왼쪽으로 밀어냄) */
-#shelf-lips, #shelf-eyes {
-  position: fixed !important;
-  left: 15vw !important; /* 화면 왼쪽 끝에서 5% 지점으로 강제 이동 */
+/* 4. 좌우 에셋 선반 공간 정의: fixed를 풀고 유연하게 배치 */
+#shelf-lips, #shelf-eyes, #shelf-accessories {
+  position: relative !important; /* 고정 위치 해제 */
+  left: auto !important;
+  right: auto !important;
+  top: auto !important; /* top: 30vh, 55vh 등 강제 좌표 완전 삭제! */
+  
+  /* 선반 가로 폭을 동일하게 고정하여 보드가 절대 쏠리지 않도록 대칭 유지 */
+  width: 180px !important; 
+  height: 75vh !important; /* 화면 높이의 75% 안에서 에셋들이 배치되도록 공간 제한 */
+  
   display: flex !important;
-  flex-direction: column !important;
-  gap: 20px !important;
+  flex-direction: column !important; /* 세로 정렬 */
+  align-items: center !important;
+  justify-content: center !important; /* 세로 기준 정중앙에 모이게 함 */
+  gap: 15px !important; /* 에셋들 간의 촘촘한 간격 */
   z-index: 20 !important;
 }
-#shelf-lips { top: 20vh !important; }
-#shelf-eyes { top: 55vh !important; }
 
-/* 3. 오른쪽 아이콘들: 화면 우측 벽에 아예 박제 (20vw만큼 오른쪽으로 밀어냄) */
-#shelf-accessories {
+/* 5. 에셋 이미지가 찌그러지거나 넘치지 않게 방어 */
+.sticker-item {
+  width: 90px !important;
+  height: 90px !important;
+  flex: 0 0 auto !important; /* 크기 변형 방지 */
+}
+
+/* 6. 테마 컬러 도트 상단 중앙 고정 */
+.board-theme-picker, .theme-dots, .theme-container {
   position: fixed !important;
-  right: 15vw !important; /* 화면 오른쪽 끝에서 5% 지점으로 강제 이동 */
-  top: 30vh !important;
+  top: 4vh !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
   display: flex !important;
-  flex-direction: column !important;
-  gap: 20px !important;
-  z-index: 20 !important;
+  flex-direction: row !important;
+  gap: 12px !important;
+  z-index: 100 !important;
 }
