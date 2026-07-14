@@ -385,6 +385,7 @@ padding: 20px;
     flex-direction: row !important;
     flex-wrap: nowrap !important;
     width: 88vw !important; /* 모바일 폭에 맞게 자연스러운 꽉 찬 가로 정렬 */
+    margin: 0 auto;
     height: auto !important;
     justify-content: space-between !important; /* ⭐️ 가로 간격 일정하게 칼정렬 */
     padding: 0 !important;
