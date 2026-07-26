@@ -151,7 +151,7 @@ padding: 20px;
   font-size: 3rem;            
   user-select: none;
   flex: 0 0 auto !important; /* 에셋이 많아져도 크기가 찌그러지지 않고 크기 유지 */
-  transform: translate(calc(var(--x-off-num, 0) * 1%), calc(var(--y-off-num, 0) * 1%)) !important; 
+  transform: translate(var(--x-off, 0%), 0%));
   transition: transform 0.2s ease;
   padding: 0 !important;
   overflow: visible !important;
@@ -169,7 +169,7 @@ padding: 20px;
   background: transparent;
   border: none;
   box-shadow: none;
-  transform: translate(calc(var(--x-off-num, 0) * 1%), calc(var(--y-off-num, 0) * 1%)) scale(1.15) !important;
+  transform: rotate(var(--rot)) translate(var(--x-off, 0px), var(--y-off, 0px)) scale(1.15);
 }
 
 .sticker-item.pressed {
