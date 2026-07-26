@@ -1,4 +1,4 @@
-* ============================================================================
+/* ============================================================================
    0. HTML 필수 요소 연결 및 초기 세팅
 ============================================================================ */
 const board = document.getElementById('board');
@@ -7,82 +7,30 @@ const resetBtn = document.getElementById('resetBtn');
 const bgmBtn = document.getElementById('bgmBtn');
 const boardEmpty = document.querySelector('.board-empty') || document.getElementById('board-empty');
 
-// ⬅️ ➡️ 단일 사이드바 연결 (선반 시스템 대체)
 const sidebarLeft = document.getElementById('sidebar-left');
 const sidebarRight = document.getElementById('sidebar-right');
 
 const STORAGE_KEY = 'fidget-board-state-v1';
 
-// 💄 피젯 에셋 리스트 (라벨 제거 완료! 에셋 추가 시 이 배열만 수정하면 끝)
+// 💄 피젯 에셋 리스트
 const ELEMENT_TYPES = [
-  { 
-    id: 'gini', 
-    img: 'assets/images/gini.png', 
-    color: '#ff3333', 
-    soundFreqs: [200], 
-    soundFiles: ['gini.mp3'] 
-  },
-  { 
-    id: 'keycap', 
-    img: 'assets/images/keycap.png', 
-    color: '#ff3333', 
-    soundFreqs: [320], 
-    soundFiles: ['keycap.wav'] 
-  },
-  { 
-    id: 'nail', 
-    img: 'assets/images/nail.png', 
-    color: '#ff3333', 
-    soundFreqs: [320], 
-    soundFiles: ['nail.wav'] 
-  },
-  { 
-    id: 'glass', 
-    img: 'assets/images/cup.png', 
-    color: '#ff3333', 
-    soundFreqs: [320], 
-    soundFiles: ['glass.wav'] 
-  },
-  { 
-    id: 'wood', 
-    img: 'assets/images/wood.png', 
-    color: '#ff3333', 
-    soundFreqs: [320], 
-    soundFiles: ['wood.wav'] 
-  },
-  { 
-    id: 'brush', 
-    img: 'assets/images/brush.png', 
-    color: '#ff3333', 
-    soundFreqs: [320], 
-    soundFiles: ['brush.wav'] 
-  },
-  { 
-    id: 'bubblewrap', 
-    img: 'assets/images/bubblewrap.png', 
-    color: '#ff3333', 
-    soundFreqs: [320], 
-    soundFiles: ['bubblewrap.wav'] 
-  },
-  { 
-    id: 'button', 
-    img: 'assets/images/button.png', 
-    color: '#ff3333', 
-    soundFreqs: [320], 
-    soundFiles: ['button.wav'] 
-  }
+  { id: 'gini', img: 'assets/images/gini.png', color: '#ff3333', soundFreqs: [200], soundFiles: ['gini.mp3'] },
+  { id: 'keycap', img: 'assets/images/keycap.png', color: '#ff3333', soundFreqs: [320], soundFiles: ['keycap.wav'] },
+  { id: 'nail', img: 'assets/images/nail.png', color: '#ff3333', soundFreqs: [320], soundFiles: ['nail.wav'] },
+  { id: 'glass', img: 'assets/images/cup.png', color: '#ff3333', soundFreqs: [320], soundFiles: ['glass.wav'] },
+  { id: 'wood', img: 'assets/images/wood.png', color: '#ff3333', soundFreqs: [320], soundFiles: ['wood.wav'] },
+  { id: 'brush', img: 'assets/images/brush.png', color: '#ff3333', soundFreqs: [320], soundFiles: ['brush.wav'] },
+  { id: 'bubblewrap', img: 'assets/images/bubblewrap.png', color: '#ff3333', soundFreqs: [320], soundFiles: ['bubblewrap.wav'] },
+  { id: 'button', img: 'assets/images/button.png', color: '#ff3333', soundFreqs: [320], soundFiles: ['button.wav'] }
 ];
 
-// 🛠️ 1. [교체 부분] % 비율 단위로 작동하도록 오프셋 강도 및 숫자 조정 (X축 확장)
-const STICKER_X_OFFSETS = [-40, 40, -50, 45, -35, 50, -45, 35];
-const STICKER_Y_OFFSETS = [-8, 10, -6, 8, -5, 10, -6, 8]; 
-
-// 고유 ID 생성기 함수
 function makeId() {
   return '_' + Math.random().toString(36).substr(2, 9);
 }
 
 /* ============================================================================
+   1. 양옆 사이드바 에셋 배치 (지그재그 및 사라짐 완전 해결)
+============================================================================ */
 function renderStickers() {
   if (sidebarLeft) sidebarLeft.innerHTML = '';
   if (sidebarRight) sidebarRight.innerHTML = '';
@@ -120,15 +68,13 @@ function renderStickers() {
       rightCount++;
     }
     
-    // ⭐️ 이미지 찌그러짐 및 증발 방지 (object-fit: contain 추가)
     if (type.img) {
-      btn.innerHTML = `<img src="${type.img}" style="width: 100%; height: 100%; object-fit: contain; display: block; pointer-events: none;">`;
+      btn.innerHTML = `<img src="${type.img}" style="width: 100%; height: 100%; object-fit: contain; pointer-events: none;">`;
     } else {
       btn.innerHTML = `<span>${type.emoji}</span>`;
     }
 
     btn.addEventListener('animationend', () => btn.classList.remove('pop'));
-    
     enableStickerDrag(btn, type);
 
     btn.addEventListener('keydown', (e) => {
@@ -338,7 +284,7 @@ function getPanForElement(el) {
 }
 
 /* ============================================================================
-   5. 사운드 시스템 (다중 오디오 & 패닝)
+   5. 사운드 시스템
 ============================================================================ */
 let audioCtx = null;
 function getAudioCtx() {
@@ -506,7 +452,7 @@ if (bgmBtn) {
       bgmBtn.classList.remove('on');
     } else {
       bgmAudio.play().catch(() => {
-        console.warn('bgm.mp3 파일을 찾을 수 없습니다.');
+        console.warn('bgm.aac 파일을 찾을 수 없습니다.');
       });
       bgmOn = true;
       bgmBtn.textContent = '🔊';
