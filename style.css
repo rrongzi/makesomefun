@@ -330,8 +330,8 @@ padding: 20px;
     align-items: center !important;
     height: 100dvh !important;
     /* 상단 버튼 아래와 하단 탭 사이에 완벽한 비율로 안착 */
-    padding-top: 25vh !important;    /* 상단 버튼 영역 아래 여백 */
-    padding-bottom: 10vh !important;  /* 하단 여백 */
+    padding-top: 20vh !important;    /* 상단 버튼 영역 아래 여백 */
+    padding-bottom: 7vh !important;  /* 하단 여백 */
     padding-left: 16px !important;
     padding-right: 16px !important;
     box-sizing: border-box !important;
