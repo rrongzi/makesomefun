@@ -1,5 +1,5 @@
-* ============================================================
-   0. 테마(디자인) 색상 토큰 — 보드 배경만 결정합니다.
+/* ============================================================
+   0. 테마(디자인) 색상 토큰
    ============================================================ */
 :root {
   --page-bg-1: #ffffff;
@@ -51,7 +51,7 @@ html, body {
   height: 100vh;
   margin: 0;
   padding: 0;
-  overflow: hidden; /* 화면 스크롤 방지 */
+  overflow: hidden;
 }
 
 body {
@@ -69,25 +69,24 @@ h1, h2 {
 }
 
 /* ============================================================
-   2. [근본 해결] 무대 영역 및 좌우 대칭 레이아웃 설정
+   2. 무대 영역 및 좌우 대칭 레이아웃 설정
    ============================================================ */
 .stage-area {
   display: flex;
   flex-direction: row;
-  justify-content: space-between; /* 좌우 사이드바를 양옆 끝으로 밀어 넓은 공간 확보 */
+  justify-content: space-between;
   align-items: center;
   width: 100vw;
   height: 100vh;
   padding: 0 4%;
-  position: relative; /* 보드판 정중앙 absolute의 기준점 */
+  position: relative;
   box-sizing: border-box;
 }
 
-/* ⭐️ 보드판: 양옆 에셋 개수가 비대칭이어도 무조건 모니터 화면의 정중앙에 강제 박제 */
 .board-frame {
   position: absolute !important;
   left: 50% !important;
-  top: 53% !important; /* 상단 테마 버튼 아래로 적절히 위치 조정 */
+  top: 53% !important;
   transform: translate(-50%, -50%) !important;
   width: 65vw !important;
   max-width: 950px !important;
@@ -120,53 +119,55 @@ h1, h2 {
 }
 
 /* ============================================================
-   3. 양옆 단일 사이드바 (구 선반 시스템 대체)
+   3. PC / 태블릿 세로 사이드바 (지그재그 오타 완전 해결)
    ============================================================ */
 .sidebar {
   position: relative;
   display: flex;
-  flex-direction: column; /* 스티커가 위에서 아래로 세로로 쌓임 */
-  flex-wrap: wrap;
+  flex-direction: column;
+  flex-wrap: nowrap;
   align-items: center;
   justify-content: center;
-  width: 250px; /* 좌우 사이드바 폭을 기계처럼 똑같이 맞춤 (대칭 보장) */
-  height: 80vh; /* 화면 상하단을 벗어나지 않도록 세로 정렬 영역 한정 */
-  gap: 40px; /* 에셋 간의 자연스러운 간격 */
-padding: 20px;
-  width: 150px;
+  width: 160px;
+  height: 80vh;
+  gap: 30px;
+  padding: 10px;
   z-index: 20;
 }
 
-/* 스티커 아이템 규격화 */
+/* 스티커 아이템 규격화 및 % 지그재그 적용 */
 .sticker-item {
   width: 100px !important;
   height: 100px !important;
-  background: transparent;   
-  border: none;              
-  box-shadow: none;          
+  background: transparent !important;   
+  border: none !important;              
+  box-shadow: none !important;          
   cursor: grab;
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 3rem;            
   user-select: none;
-  flex: 0 0 auto !important; /* 에셋이 많아져도 크기가 찌그러지지 않고 크기 유지 */
-  transform: translate(var(--x-off, 0%), 0%));
+  flex: 0 0 auto !important;
+  
+  /* ⭐️ [오타 해결] 괄호 짝을 맞추고 JS의 % 오프셋(--x-off, --y-off)을 정상적으로 불러옵니다 */
+  transform: translate(var(--x-off, 0%), var(--y-off, 0%)) !important;
   transition: transform 0.2s ease;
+  overflow: visible !important;
 }
 
 .sticker-item:hover {
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  transform: rotate(var(--rot)) translate(var(--x-off, 0px), var(--y-off, 0px)) scale(1.15);
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  transform: translate(var(--x-off, 0%), var(--y-off, 0%)) scale(1.15) !important;
 }
 
 .sticker-item.pressed {
-  background: transparent;
-  border: none;
-  box-shadow: none;
-  transform: rotate(var(--rot)) translate(var(--x-off, 0px), var(--y-off, 0px)) scale(0.92);
+  background: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  transform: translate(var(--x-off, 0%), var(--y-off, 0%)) scale(0.92) !important;
 }
 
 .sticker-item.pop {
@@ -243,11 +244,11 @@ padding: 20px;
 .delete-btn:hover { transform: scale(1.25); color: #ff00fb; }
 
 /* ============================================================
-   5. 보드 내부 버튼 및 컨트롤러 스타일
+   5. 상단 컨트롤러 및 테마 선택 버튼
    ============================================================ */
 .board-theme-picker, .theme-dots, .theme-container {
   position: fixed !important;
-  top: 4vh !important; /* 상단 한가운데 고정 */
+  top: 4vh !important;
   left: 50% !important;
   transform: translateX(-50%) !important;
   display: flex !important;
@@ -265,14 +266,8 @@ padding: 20px;
   transition: transform 0.15s ease;
 }
 
-.theme-dot:hover {
-  transform: scale(1.1);
-}
-
-.theme-dot.active {
-  border-color: #8bffa4; 
-  transform: scale(1.05);
-}
+.theme-dot:hover { transform: scale(1.1); }
+.theme-dot.active { border-color: #8bffa4; transform: scale(1.05); }
 
 .board-controls {
   position: absolute;
@@ -299,12 +294,10 @@ padding: 20px;
   transition: transform 0.15s ease, opacity 0.15s ease;
 }
 
-.icon-btn:hover { 
-  transform: scale(1.1); 
-}
+.icon-btn:hover { transform: scale(1.1); }
 
 /* ============================================================
-   6. 반응형 모바일 대응 (간격 정렬 & 세로 지그재그 & 버튼 복구)
+   6. 반응형 모바일 대응 (가로 정렬 & 세로 지그재그)
    ============================================================ */
 @media (max-width: 860px) {
   html, body {
@@ -312,23 +305,20 @@ padding: 20px;
     overflow: hidden !important;
   }
   
-  /* 1. 무대 영역: 상단 여백을 살짝 조정하여 너무 다닥다닥 붙지 않게 분배 */
   .stage-area {
     display: flex !important;
     flex-direction: column !important;
     justify-content: space-between !important;
     align-items: center !important;
-    height: 100vh !important;
-    /* 상단 버튼 아래와 하단 탭 사이에 완벽한 비율로 안착 */
-    padding-top: 20vh !important;    /* 상단 버튼 영역 아래 여백 */
-    padding-bottom: 7vh !important;  /* 하단 여백 */
+    height: 100dvh !important;
+    padding-top: 18vh !important;    
+    padding-bottom: 5vh !important;  
     padding-left: 16px !important;
     padding-right: 16px !important;
     box-sizing: border-box !important;
     gap: 0 !important;
   }
 
-  /* 2. 우측 상단 고정 버튼 */
   .board-controls {
     position: fixed !important;
     top: 16px !important;
@@ -342,16 +332,9 @@ padding: 20px;
     z-index: 100 !important;
   }
 
-  .icon-btn {
-    width: 40px !important;
-    height: 40px !important;
-    font-size: 18px !important;
-  }
-
-  /* 3. 테마 선택 버튼 */
   .board-theme-picker {
     position: fixed !important;
-    top: 80px !important;
+    top: 75px !important;
     left: 50% !important;
     transform: translateX(-50%) !important;
     display: flex !important;
@@ -361,19 +344,17 @@ padding: 20px;
     z-index: 100 !important;
   }
 
-  /* 4. 🖥️ 보드판 */
   .board-frame {
     position: relative !important;
     left: auto !important;
     top: auto !important;
     transform: none !important;
-    
-    width: 87vw !important;
+    width: 85vw !important;
     max-width: 460px !important;
     height: auto !important;
     aspect-ratio: 11/7 !important;
     z-index: 10 !important;
-    margin: 15px 0 !important;
+    margin: 10px 0 !important;
   }
 
   .board {
@@ -382,33 +363,27 @@ padding: 20px;
     background-size: 100% 100% !important;
   }
 
-  /* 5. 📦 위/아래 에셋 사이드바: 찢어짐 없는 가로 배치 고정 */
   .sidebar {
     position: relative !important;
     display: flex !important;
     flex-direction: row !important;
     flex-wrap: nowrap !important;
-    width: 75vw !important; /* 모바일 폭에 맞게 자연스러운 꽉 찬 가로 정렬 */
-    margin: 0 auto;
+    width: 75vw !important; 
+    margin: 0 auto !important;
     height: auto !important;
-    justify-content: center !important; /* ⭐️ 가로 간격 일정하게 칼정렬 */
+    justify-content: center !important; 
     padding: 0 !important;
-    gap: 4vw;
+    gap: 4vw !important;
     z-index: 20 !important;
   }
 
-  /* 6. ⭐️ 에셋 아이템: 가로(X) 정렬 유지 및 세로(Y) 지그재그 적용 */
   .sticker-item {
     width: 62px !important;
     height: 62px !important;
-    
-    /* 💡 해결책: 가로 오프셋은 완전히 무시(0)하고, 세로(--y-off)로만 엇갈려서 위아래로 리드미컬하게 배치합니다 */
+    /* 모바일 가로 정렬일 때: Y축(세로) 지그재그 적용 */
     transform: translate(0px, calc(var(--y-off, 0%) * 1.5)) !important;
   }
 
-  /* ============================================================
-     🚨 [완벽 해결] 보드 위 피젯 아이템 및 딜리트 버튼 깨짐 수정
-     ============================================================ */
   .fidget-item {
     width: 14vw !important;       
     height: 14vw !important;       
@@ -420,7 +395,6 @@ padding: 20px;
     height: 100% !important;
   }
 
-/* ⭐️ 흰색 동그라미를 완전히 없애고 원래의 핫핑크 아웃라인 ✕ 스타일로 완벽 롤백 */
   .delete-btn {
     position: absolute !important;
     top: -10px !important;       
@@ -428,11 +402,9 @@ padding: 20px;
     width: auto !important;
     height: auto !important;
     border: none !important;
-    background: transparent !important; /* 둥근 배경 지우고 완전히 투명하게 */
+    background: transparent !important;
     box-shadow: none !important;
     border-radius: 0 !important;
-    
-    /* 원래의 형광 핑크색 글씨와 하얀 아웃라인 섀도우 복구 */
     color: hsl(294, 100%, 49%) !important;
     font-size: 15px !important;   
     font-family: "Jua", sans-serif !important; 
@@ -440,7 +412,6 @@ padding: 20px;
     transition: opacity 0.15s ease, transform 0.15s ease !important;
   }
 
-  /* 모바일에서 손가락을 얹거나 호버했을 때 삭제 버튼을 확실히 노출 */
   .fidget-item:hover .delete-btn,
   .fidget-item:active .delete-btn {
     opacity: 1 !important;
