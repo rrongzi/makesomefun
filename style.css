@@ -137,8 +137,8 @@ h1, h2 {
 
 /* 스티커 아이템 규격화 및 % 지그재그 적용 */
 .sticker-item {
-  width: 105px !important;
-  height: 105px !important;
+  width: 115px !important;
+  height: 115px !important;
   background: transparent !important;   
   border: none !important;              
   box-shadow: none !important;          
