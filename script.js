@@ -1,4 +1,4 @@
-/* ============================================================================
+* ============================================================================
    0. HTML 필수 요소 연결 및 초기 세팅
 ============================================================================ */
 const board = document.getElementById('board');
@@ -100,11 +100,17 @@ function renderStickers() {
     btn.type = 'button';
     
     // ⭐️ 핵심: 각 사이드바 내부에서 들어간 순서에 따라 확실하게 좌우(% 비율)로 흔들어줍니다.
-    const xOff = (index % 2 === 0) ? -25 : 25;
-    const yOff = (index % 2 === 0) ? -10 : 10;
+    let xOff = 0;
+    let yOff = 0;
+
+    if (index % 2 === 0) {
+      // ⬅️ 왼쪽 사이드바 배치
+      // 들어간 순서가 짝수면 왼쪽(-40%), 홀수면 오른쪽(40%)으로 번갈아가며 튕김
+      xOff = leftCount % 2 === 0 ? -40 : 40;
+      yOff = leftCount % 2 === 0 ? -12 : 12; // 위아래 편차도 줘서 더 역동적이게!
       
-      btn.style.setProperty('--x-off-num', xOff);
-      btn.style.setProperty('--y-off-num', yOff);
+      btn.style.setProperty('--x-off', xOff + '%');
+      btn.style.setProperty('--y-off', yOff + '%');
       
       if (sidebarLeft) sidebarLeft.appendChild(btn);
       leftCount++; // 왼쪽 카운트 증가
