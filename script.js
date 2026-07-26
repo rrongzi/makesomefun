@@ -442,7 +442,7 @@ if (bgmBtn) {
     if (!bgmAudio) {
       bgmAudio = new Audio('assets/sounds/bgm.aac');
       bgmAudio.loop = true;
-      bgmAudio.volume = 0.05;
+      bgmAudio.volume = 1;
     }
 
     if (bgmOn) {
