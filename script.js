@@ -83,9 +83,6 @@ function makeId() {
 }
 
 /* ============================================================================
-/* ============================================================================
-   1. 양옆 사이드바에 에셋 반반 자동 배정하기 (100% 안전한 지그재그 수식 적용)
-============================================================================ */
 function renderStickers() {
   if (sidebarLeft) sidebarLeft.innerHTML = '';
   if (sidebarRight) sidebarRight.innerHTML = '';
@@ -102,30 +99,30 @@ function renderStickers() {
     let yOff = 0;
 
     if (index % 2 === 0) {
-      // ⬅️ 왼쪽 사이드바 배치
+      // ⬅️ 왼쪽 사이드바
       xOff = leftCount % 2 === 0 ? -40 : 40;
       yOff = leftCount % 2 === 0 ? -12 : 12;
       
-      // ⭐️ 중요: '+' '%'를 붙이지 않고 오직 순수 '숫자'만 넘겨서 CSS 파싱 에러 방지
-      btn.style.setProperty('--x-off', xOff);
-      btn.style.setProperty('--y-off', yOff);
+      btn.style.setProperty('--x-off', xOff + '%');
+      btn.style.setProperty('--y-off', yOff + '%');
       
       if (sidebarLeft) sidebarLeft.appendChild(btn);
       leftCount++;
     } else {
-      // ➡️ 오른쪽 사이드바 배치
+      // ➡️ 오른쪽 사이드바
       xOff = rightCount % 2 === 0 ? 40 : -40;
       yOff = rightCount % 2 === 0 ? 12 : -12;
       
-      btn.style.setProperty('--x-off', xOff);
-      btn.style.setProperty('--y-off', yOff);
+      btn.style.setProperty('--x-off', xOff + '%');
+      btn.style.setProperty('--y-off', yOff + '%');
       
       if (sidebarRight) sidebarRight.appendChild(btn);
       rightCount++;
     }
     
+    // ⭐️ 이미지 찌그러짐 및 증발 방지 (object-fit: contain 추가)
     if (type.img) {
-      btn.innerHTML = `<img src="${type.img}" style="width: 100%; height: 100%; object-fit: contain; pointer-events: none;">`;
+      btn.innerHTML = `<img src="${type.img}" style="width: 100%; height: 100%; object-fit: contain; display: block; pointer-events: none;">`;
     } else {
       btn.innerHTML = `<span>${type.emoji}</span>`;
     }
