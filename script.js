@@ -186,8 +186,15 @@ function addItemToBoard(typeId, savedX = null, savedY = null, savedId = null) {
 
   enableDrag(el);
 
+  // ⭐️ 삭제 시 해당 피젯에서 울리던 오디오만 콕 집어서 즉시 중지
   el.querySelector('.delete-btn').addEventListener('click', (e) => {
     e.stopPropagation();
+
+    if (el.currentAudio) {
+      el.currentAudio.pause();
+      el.currentAudio.currentTime = 0;
+    }
+
     el.remove();
     updateEmptyMessage();
     saveBoardToStorage();
@@ -199,7 +206,7 @@ function addItemToBoard(typeId, savedX = null, savedY = null, savedId = null) {
     if (e.key === 'Enter' || e.key === ' ') {
       e.preventDefault();
       triggerPopEffect(el);
-      playSound(el.dataset.type, getPanForElement(el));
+      playSound(el.dataset.type, getPanForElement(el), el);
     }
   });
 
@@ -259,7 +266,8 @@ function enableDrag(el) {
     triggerPopEffect(el); 
 
     if (!moved) {
-      playSound(el.dataset.type, getPanForElement(el));
+      // ⭐️ 세 번째 인자로 현재 피젯 요소(el)를 전달해 오디오 참조를 남김
+      playSound(el.dataset.type, getPanForElement(el), el);
     }
     saveBoardToStorage();
   });
@@ -315,7 +323,8 @@ function playFallbackBeep(freq, panValue) {
   osc.stop(ctx.currentTime + 0.25);
 }
 
-function playSound(typeId, panValue = 0) {
+// ⭐️ targetEl을 넘겨받아 해당 피젯 요소가 자기 오디오 객체를 소유하게 함
+function playSound(typeId, panValue = 0, targetEl = null) {
   const type = ELEMENT_TYPES.find((t) => t.id === typeId);
   if (!type) return;
 
@@ -333,6 +342,12 @@ function playSound(typeId, panValue = 0) {
   const randomFreq = freqs[Math.floor(Math.random() * freqs.length)];
 
   const audio = new Audio(`assets/sounds/${randomFile}`);
+
+  // 삭제 시 해당 소리만 제어하기 위해 참조 저장
+  if (targetEl) {
+    targetEl.currentAudio = audio;
+  }
+
   let playedRealFile = false;
 
   try {
