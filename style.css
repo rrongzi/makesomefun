@@ -1,4 +1,4 @@
-/* ============================================================
+* ============================================================
    0. 테마(디자인) 색상 토큰 — 보드 배경만 결정합니다.
    ============================================================ */
 :root {
@@ -153,16 +153,6 @@ padding: 20px;
   flex: 0 0 auto !important; /* 에셋이 많아져도 크기가 찌그러지지 않고 크기 유지 */
   transform: translate(var(--x-off, 0%), 0%));
   transition: transform 0.2s ease;
-  padding: 0 !important;
-  overflow: visible !important;
-}
-
-.sticker-item img {
-  width: 100% !important;
-  height: 100% !important;
-  /* 찌그러지지 않고 제 비율대로 정사각형 박스 안에 꽉 차도록 contain 적용 */
-  object-fit: contain !important; 
-  pointer-events: none;
 }
 
 .sticker-item:hover {
@@ -328,7 +318,7 @@ padding: 20px;
     flex-direction: column !important;
     justify-content: space-between !important;
     align-items: center !important;
-    height: 100dvh !important;
+    height: 100vh !important;
     /* 상단 버튼 아래와 하단 탭 사이에 완벽한 비율로 안착 */
     padding-top: 20vh !important;    /* 상단 버튼 영역 아래 여백 */
     padding-bottom: 7vh !important;  /* 하단 여백 */
