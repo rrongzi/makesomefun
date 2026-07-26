@@ -318,9 +318,12 @@ padding: 20px;
     flex-direction: column !important;
     justify-content: space-between !important;
     align-items: center !important;
-    height: 100vh !important;
+    height: 100dvh !important;
     /* 상단 버튼 아래와 하단 탭 사이에 완벽한 비율로 안착 */
-    padding: 200px 16px 100px 16px !important; 
+    padding-top: 14vh !important;    /* 상단 버튼 영역 아래 여백 */
+    padding-bottom: 4vh !important;  /* 하단 여백 */
+    padding-left: 16px !important;
+    padding-right: 16px !important;
     box-sizing: border-box !important;
     gap: 0 !important;
   }
