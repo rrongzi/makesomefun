@@ -84,13 +84,12 @@ function makeId() {
 
 /* ============================================================================
 /* ============================================================================
-   1. 양옆 사이드바에 에셋 반반 자동 배정하기 (진짜 지그재그 알고리즘 적용!)
+   1. 양옆 사이드바에 에셋 반반 자동 배정하기 (100% 안전한 지그재그 수식 적용)
 ============================================================================ */
 function renderStickers() {
   if (sidebarLeft) sidebarLeft.innerHTML = '';
   if (sidebarRight) sidebarRight.innerHTML = '';
 
-  // 각 사이드바에 실제로 몇 개가 들어갔는지 세는 카운터
   let leftCount = 0;
   let rightCount = 0;
 
@@ -99,43 +98,40 @@ function renderStickers() {
     btn.className = 'sticker-item';
     btn.type = 'button';
     
-    // ⭐️ 핵심: 각 사이드바 내부에서 들어간 순서에 따라 확실하게 좌우(% 비율)로 흔들어줍니다.
     let xOff = 0;
     let yOff = 0;
 
     if (index % 2 === 0) {
       // ⬅️ 왼쪽 사이드바 배치
-      // 들어간 순서가 짝수면 왼쪽(-40%), 홀수면 오른쪽(40%)으로 번갈아가며 튕김
       xOff = leftCount % 2 === 0 ? -40 : 40;
-      yOff = leftCount % 2 === 0 ? -12 : 12; // 위아래 편차도 줘서 더 역동적이게!
+      yOff = leftCount % 2 === 0 ? -12 : 12;
       
-      btn.style.setProperty('--x-off', xOff + '%');
-      btn.style.setProperty('--y-off', yOff + '%');
+      // ⭐️ 중요: '+' '%'를 붙이지 않고 오직 순수 '숫자'만 넘겨서 CSS 파싱 에러 방지
+      btn.style.setProperty('--x-off', xOff);
+      btn.style.setProperty('--y-off', yOff);
       
       if (sidebarLeft) sidebarLeft.appendChild(btn);
-      leftCount++; // 왼쪽 카운트 증가
+      leftCount++;
     } else {
       // ➡️ 오른쪽 사이드바 배치
-      // 들어간 순서가 짝수면 오른쪽(40%), 홀수면 왼쪽(-40%)으로 번갈아가며 튕김
       xOff = rightCount % 2 === 0 ? 40 : -40;
       yOff = rightCount % 2 === 0 ? 12 : -12;
       
-      btn.style.setProperty('--x-off', xOff + '%');
-      btn.style.setProperty('--y-off', yOff + '%');
+      btn.style.setProperty('--x-off', xOff);
+      btn.style.setProperty('--y-off', yOff);
       
       if (sidebarRight) sidebarRight.appendChild(btn);
-      rightCount++; // 오른쪽 카운트 증가
+      rightCount++;
     }
     
     if (type.img) {
-      btn.innerHTML = `<img src="${type.img}" style="width: 100%; height: 100%; pointer-events: none;">`;
+      btn.innerHTML = `<img src="${type.img}" style="width: 100%; height: 100%; object-fit: contain; pointer-events: none;">`;
     } else {
       btn.innerHTML = `<span>${type.emoji}</span>`;
     }
 
     btn.addEventListener('animationend', () => btn.classList.remove('pop'));
     
-    // 스티커 드래그/클릭 기능 연결
     enableStickerDrag(btn, type);
 
     btn.addEventListener('keydown', (e) => {
